@@ -98,17 +98,22 @@ public class Main extends Application {
         });
         scene.setOnKeyTyped(event -> {
             TSPSolver solver = null;
-            if(event.isControlDown()){
-                if(solver!=null && !solver.getClass().equals(GASolver.class)){
-                    bestTour=null;
-                }
-                solver = new GASolver();
-            }else{
-                if(solver!=null && !solver.getClass().equals(Swarm.class)){
-                    bestTour=null;
-                }
-                solver = new Swarm(10,10000,CityManager.getInstance().numberOfCities()*100);
-            }
+            
+//            if(event.isControlDown()){
+//                if(solver!=null && !solver.getClass().equals(GASolver.class)){
+//                    bestTour=null;
+//                }
+//                solver = new GASolver();
+//            }else{
+//                if(solver!=null && !solver.getClass().equals(Swarm.class)){
+//                    bestTour=null;
+//                }
+//                solver = new Swarm(10,10000,CityManager.getInstance().numberOfCities()*100);
+//            }
+            if(solver!=null && !solver.getClass().equals(GASolver.class)){
+              bestTour=null;
+              }
+            solver = new GASolver();
             Tour tour = solver.solve(CityManager.getInstance(), (solution) -> {
 
             });
@@ -120,11 +125,20 @@ public class Main extends Application {
             }
             label.setText("Total City: " + CityManager.getInstance().numberOfCities()+ " | Current Best Distance: " + bestTour.getDistance());
             root.getChildren().removeIf((Node t) -> t.getClass().getSimpleName().equals("Line"));
+            int startCityIndex = 0;
             for (int i = 0; i < bestTour.tourSize(); i++) {
                 Line line = new Line(bestTour.getCity(i).getLocation().getX(), bestTour.getCity(i).getLocation().getY(),
                         bestTour.getCity((i + 1)%bestTour.tourSize()).getLocation().getX(),
                         bestTour.getCity((i + 1)%bestTour.tourSize()).getLocation().getY());
-                line.setStroke(Color.GREEN);
+                if (i == startCityIndex) { // Check if it's the starting city
+                    line.setStroke(Color.RED); // Set a different color for the line
+                    Circle circle = new Circle(bestTour.getCity(i).getLocation().getX(), bestTour.getCity(i).getLocation().getY(), 10);
+                    circle.setFill(Color.RED);
+                    root.getChildren().add(circle);
+                    circle.toFront();
+                } else {
+                    line.setStroke(Color.GREEN);
+                }
                 line.setStrokeWidth(5);
 
                 root.getChildren().add(line);
