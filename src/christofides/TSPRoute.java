@@ -2,6 +2,8 @@ package christofides;
 
 import java.util.*;
 
+import christofides.genetic.GeneticAlgoSolver;
+
 public class TSPRoute {
     ArrayList<Node> nodes = new ArrayList<>();
 
@@ -32,6 +34,41 @@ public class TSPRoute {
             System.out.println(edge.u.id+" "+edge.v.id);
         }
         System.out.println(tour.totalWeight());
+        
+        //Genetic Algo
+        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
+        String[][] initialPopulation = GASolver.initializePopulation(50);
+        for (int generations = 0; generations < 1; generations++) {
+        	double[] fitness = GASolver.evaluateFitness(initialPopulation);
+        	String[][] parents = GASolver.selectParents(initialPopulation, fitness);
+        	String[][] newPopulation = GASolver.performCrossover(parents, initialPopulation.length);
+        	GASolver.mutatePopulation(newPopulation);
+        	initialPopulation = newPopulation;
+        }
+        
+        double[] fitness = GASolver.evaluateFitness(initialPopulation);
+        int bestTourIndex = GASolver.findBestTourIndex(fitness);
+        String[] GATour = initialPopulation[bestTourIndex];
+        ArrayList<Edge> newTour = GASolver.generateArrayListOfEdgesFromTour(GATour);
+        Graph newGATour = new Graph(newTour);
+        System.out.println("New Genetic Algorithm Tour");
+        for(Edge edge: newGATour.allEdges()) {
+            System.out.println(edge.u.id+" "+edge.v.id);
+        }
+        System.out.println(newGATour.totalWeight());
+        
+    }
+    
+    public void printGeneticAlgoPopulation(String[][] population) {
+    	System.out.println("Genetic Algo Start");
+        for (int i=0; i < population.length; i++) {
+        	for (int j=0; j < population[0].length; j++) {
+        		System.out.print(population[i][j]);
+        		System.out.print(" ");
+        	}
+        	System.out.println();
+        }
+        System.out.println("Genetic Algo End");
     }
 
     private void makeAllNodeDegreeEven(Graph g) {

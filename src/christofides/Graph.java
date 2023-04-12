@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Graph {
     ArrayList<Node> nodes = new ArrayList<>();
-    Map<String, ArrayList<Edge>> adj = new HashMap<String, ArrayList<Edge>>();;
+    Map<String, ArrayList<Edge>> adj = new HashMap<String, ArrayList<Edge>>();
 
     private int edgeCount = 0;
 
@@ -29,6 +29,10 @@ public class Graph {
 
     public ArrayList<Node> getNodes() {
         return nodes;
+    }
+    
+    public Map<String, ArrayList<Edge>> getAdj() {
+    	return this.adj;
     }
 
     public void addEdge(Edge e) {
@@ -63,46 +67,46 @@ public class Graph {
 }
 
 
-class Node {
-    String id;
-    int x;
-    int y;
-    public Node(String id, int x, int y) {
-        this.id = id;
-        this.x = x;
-        this.y = y;
-    }
+//class Node {
+//    String id;
+//    int x;
+//    int y;
+//    public Node(String id, int x, int y) {
+//        this.id = id;
+//        this.x = x;
+//        this.y = y;
+//    }
+//
+//    public boolean equals(Node that) {
+//        return this.id.equals(that.id);
+//    }
+//
+//    @Override
+//    public int hashCode(){
+//        return id.hashCode();
+//    }
+//
+//}
 
-    public boolean equals(Node that) {
-        return this.id.equals(that.id);
-    }
-
-    @Override
-    public int hashCode(){
-        return id.hashCode();
-    }
-
-}
-
-class Edge {
-    Node u;
-    Node v;
-    double weight;
-    public Edge(Node u, Node v) {
-        this.u = u;
-        this.v = v;
-        weight = getWeight();
-    }
-
-    // Euclidean distance calculation
-    private double getWeight() {
-        // Return infinite weight if nodes are null
-        if(Objects.isNull(u) || Objects.isNull(v)) return Integer.MAX_VALUE;
-        // return Math.sqrt((u.x-v.x)*(u.x-v.x) + (u.y-v.y)*(u.y-v.y));
-        return (Math.abs(u.x-v.x) + Math.abs(u.y-v.y));
-    }
-
-    public int compareWeightTo(Edge that) {
-        return Double.compare(this.weight, that.weight);
-    }
-}
+//class Edge {
+//    Node u;
+//    Node v;
+//    double weight;
+//    public Edge(Node u, Node v) {
+//        this.u = u;
+//        this.v = v;
+//        weight = getWeight();
+//    }
+//
+//    // Euclidean distance calculation
+//    private double getWeight() {
+//        // Return infinite weight if nodes are null
+//        if(Objects.isNull(u) || Objects.isNull(v)) return Integer.MAX_VALUE;
+//        // return Math.sqrt((u.x-v.x)*(u.x-v.x) + (u.y-v.y)*(u.y-v.y));
+//        return (Math.abs(u.x-v.x) + Math.abs(u.y-v.y));
+//    }
+//
+//    public int compareWeightTo(Edge that) {
+//        return Double.compare(this.weight, that.weight);
+//    }
+//}
