@@ -1,4 +1,4 @@
-package christofides.genetic;
+package christofides.optimizations;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -17,8 +17,8 @@ public class GeneticAlgoSolver {
 	
 	public GeneticAlgoSolver(Graph tour) {
 		this.tour = tour;
-		numVertices = this.tour.getVertexCount();
-		nodes = this.tour.getNodes();
+		this.numVertices = this.tour.getVertexCount();
+		this.nodes = this.tour.getNodes();
 	}
 	
 	public String[][] initializePopulation(int popSize) {

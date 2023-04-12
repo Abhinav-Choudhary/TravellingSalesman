@@ -27,4 +27,12 @@ public class Edge {
     public int compareWeightTo(Edge that) {
         return Double.compare(this.weight, that.weight);
     }
+    
+    public Node getUEdge() {
+    	return this.u;
+    }
+    
+    public Node getVEdge() {
+    	return this.v;
+    }
 }

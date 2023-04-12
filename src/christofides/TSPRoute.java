@@ -2,7 +2,8 @@ package christofides;
 
 import java.util.*;
 
-import christofides.genetic.GeneticAlgoSolver;
+import christofides.optimizations.GeneticAlgoSolver;
+import christofides.optimizations.SimulatedAnnealingSolver;
 
 public class TSPRoute {
     ArrayList<Node> nodes = new ArrayList<>();
@@ -38,7 +39,7 @@ public class TSPRoute {
         //Genetic Algo
         GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
         String[][] initialPopulation = GASolver.initializePopulation(50);
-        for (int generations = 0; generations < 1; generations++) {
+        for (int generations = 0; generations < 100; generations++) {
         	double[] fitness = GASolver.evaluateFitness(initialPopulation);
         	String[][] parents = GASolver.selectParents(initialPopulation, fitness);
         	String[][] newPopulation = GASolver.performCrossover(parents, initialPopulation.length);
@@ -49,14 +50,25 @@ public class TSPRoute {
         double[] fitness = GASolver.evaluateFitness(initialPopulation);
         int bestTourIndex = GASolver.findBestTourIndex(fitness);
         String[] GATour = initialPopulation[bestTourIndex];
-        ArrayList<Edge> newTour = GASolver.generateArrayListOfEdgesFromTour(GATour);
-        Graph newGATour = new Graph(newTour);
+        ArrayList<Edge> newGATour = GASolver.generateArrayListOfEdgesFromTour(GATour);
+        Graph GATourGraph = new Graph(newGATour);
         System.out.println("New Genetic Algorithm Tour");
-        for(Edge edge: newGATour.allEdges()) {
+        for(Edge edge: GATourGraph.allEdges()) {
             System.out.println(edge.u.id+" "+edge.v.id);
         }
-        System.out.println(newGATour.totalWeight());
+        System.out.println(GATourGraph.totalWeight());
         
+        //Simulated Annealing
+        SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
+        String[] originalTour = SASolver.createStringTourFromGraphTour(tour);
+        String[] SATour = SASolver.simulatedAnnealing(originalTour);
+        ArrayList<Edge> newSATour = SASolver.generateArrayListOfEdgesFromTour(SATour);
+        Graph SATourGraph = new Graph(newSATour);
+        System.out.println("New Simulated Annealing Tour");
+        for(Edge edge: SATourGraph.allEdges()) {
+            System.out.println(edge.u.id+" "+edge.v.id);
+        }
+        System.out.println(SATourGraph.totalWeight());
     }
 
     private void makeAllNodeDegreeEven(Graph g) {
@@ -86,4 +98,5 @@ public class TSPRoute {
     private boolean isEven(int n) {
         return n%2 == 0;
     }
+
 }
