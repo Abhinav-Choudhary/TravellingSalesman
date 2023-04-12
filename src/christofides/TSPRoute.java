@@ -58,18 +58,6 @@ public class TSPRoute {
         System.out.println(newGATour.totalWeight());
         
     }
-    
-    public void printGeneticAlgoPopulation(String[][] population) {
-    	System.out.println("Genetic Algo Start");
-        for (int i=0; i < population.length; i++) {
-        	for (int j=0; j < population[0].length; j++) {
-        		System.out.print(population[i][j]);
-        		System.out.print(" ");
-        	}
-        	System.out.println();
-        }
-        System.out.println("Genetic Algo End");
-    }
 
     private void makeAllNodeDegreeEven(Graph g) {
         ArrayList<Node> oddDegreeNodes = new ArrayList<>();
