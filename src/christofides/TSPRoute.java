@@ -12,8 +12,10 @@ public class TSPRoute {
 
     public void build(Scanner reader) {
         int n = reader.nextInt();
+        int pos = 1;
         while(n-- > 0) {
-            Node node = new Node(String.valueOf(reader.nextInt()), reader.nextInt(), reader.nextInt());
+            reader.next();
+            Node node = new Node(String.valueOf(pos++), reader.nextDouble(), reader.nextDouble());
             nodes.add(node);
         }
         buildRoute();
