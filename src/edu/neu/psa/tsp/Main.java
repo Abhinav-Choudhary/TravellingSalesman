@@ -101,7 +101,7 @@ public class Main extends Application {
             if(event.isControlDown()){
                 if(solver!=null && !solver.getClass().equals(GASolver.class)){
                     bestTour=null;
-                }
+                    }
                 solver = new GASolver();
             }else{
                 if(solver!=null && !solver.getClass().equals(Swarm.class)){
