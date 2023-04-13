@@ -13,12 +13,29 @@ public class GeneticAlgoSolver {
 	int numVertices = 0;
 	ArrayList<Node> nodes;
 	private static final double mutationProb = 0.015;
-    private static final int tournamentSize = 5;
+    private static final int tournamentSize = 8;
 	
 	public GeneticAlgoSolver(Graph tour) {
 		this.tour = tour;
 		this.numVertices = this.tour.getVertexCount();
 		this.nodes = this.tour.getNodes();
+	}
+	
+	public Graph buildTour(int populationSize) {
+		String[][] initialPopulation = initializePopulation(populationSize);
+        for (int generations = 0; generations < 1000; generations++) {
+        	double[] fitness = evaluateFitness(initialPopulation);
+        	String[][] parents = selectParents(initialPopulation, fitness);
+        	String[][] newPopulation = performCrossover(parents, initialPopulation.length);
+        	mutatePopulation(newPopulation);
+        	initialPopulation = newPopulation;
+        }
+        
+        double[] fitness = evaluateFitness(initialPopulation);
+        int bestTourIndex = findBestTourIndex(fitness);
+        String[] GATour = initialPopulation[bestTourIndex];
+        ArrayList<Edge> newGATour = generateArrayListOfEdgesFromTour(GATour);
+        return new Graph(newGATour);
 	}
 	
 	public String[][] initializePopulation(int popSize) {

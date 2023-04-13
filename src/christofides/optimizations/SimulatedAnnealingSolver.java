@@ -1,9 +1,11 @@
 package christofides.optimizations;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 import christofides.Edge;
+import christofides.EulerTour;
 import christofides.Graph;
 import christofides.Node;
 
@@ -12,9 +14,9 @@ public class SimulatedAnnealingSolver {
 	int numVertices = 0;
 	ArrayList<Node> nodes;
 	// Cooling rate for the temperature
-    private static final double COOLING_RATE = 0.003;
+    private static final double COOLING_RATE = 0.095;
     // The initial temperature
-    private static final double INITIAL_TEMPERATURE = 10000;
+    private static final double INITIAL_TEMPERATURE = 1000;
     // Random number generator
     private static final Random random = new Random();
 	
@@ -24,21 +26,27 @@ public class SimulatedAnnealingSolver {
 		this.nodes = this.route.getNodes();
 	}
 	
+	public Graph buildTour(EulerTour eulerTour) {
+		String[] originalTour = Helper.getStringTourFromVertexTour(eulerTour);
+		HashMap<String, Double> allDistances = Helper.calculateAllDistances(numVertices, nodes);
+		HashMap<String, Node> mappedNodes = Helper.mapNodes(originalTour, numVertices, nodes);
+		String[] modifiedTour = simulatedAnnealing(originalTour, allDistances, mappedNodes);
+		ArrayList<Edge> newSATour = Helper.generateArrayListOfEdgesFromTour(modifiedTour, mappedNodes);
+		return new Graph(newSATour);
+	}
+	
 	// Implementation of the Simulated Annealing algorithm
-    public String[] simulatedAnnealing(String[] initialRoute) {
+    public String[] simulatedAnnealing(String[] initialRoute, HashMap<String, Double> allDistances, HashMap<String, Node> nodesMap) {
     	String[] currentRoute = initialRoute.clone();
-    	Double[][] distances = calculateDistances(initialRoute);
-    	Double currentCost = calculateCost(distances, currentRoute);
-    	
+    	Double currentCost = calculateCost(allDistances, nodesMap, currentRoute);
     	String[] bestRoute = currentRoute.clone();
         Double bestCost = currentCost;
-        
         double temperature = INITIAL_TEMPERATURE;
         
         while (temperature > 1) {
             String[] newRoute = getNeighbour(currentRoute);
-            Double[][] newDistances = calculateDistances(newRoute);
-            Double newCost = calculateCost(newDistances, newRoute);
+            HashMap<String, Double> newDistances = Helper.calculateDistances(newRoute, allDistances, nodesMap);
+            Double newCost = calculateCost(newDistances, nodesMap, newRoute);
 
             if (acceptanceProbability(currentCost, newCost, temperature) > Math.random()) {
                 currentRoute = newRoute;
@@ -56,79 +64,13 @@ public class SimulatedAnnealingSolver {
     	return bestRoute;
     }
     
-//    for(Edge edge: SATourGraph.allEdges()) {
-//        System.out.println(edge.u.id+" "+edge.v.id);
-//    }
-    
-    public String[] createStringTourFromGraphTour(Graph Tour) {
-    	String[] newTour = new String[this.numVertices];
-    	ArrayList<Edge> edges = Tour.allEdges();
-    	newTour[0] = edges.get(0).getUEdge().getID();
-    	String initialVEdge = edges.get(0).getVEdge().getID();
-    	for (int i=1; i<newTour.length; i++) {
-    		int edgeIndex = findEdgeIndex(edges, initialVEdge);
-    		Edge nextEdge = edges.get(edgeIndex);
-    		Node nextEdgeU = nextEdge.getUEdge();
-    		Node nextEdgeV = nextEdge.getVEdge();
-    		newTour[i] = nextEdgeU.getID();
-    		initialVEdge = nextEdgeV.getID();
-    	}
-    	
-    	return newTour;
-    }
-    
-    private int findEdgeIndex(ArrayList<Edge> edges, String vEdgeID) {
-    	int edgeIndex = -1;
-    	for (int i=1; i<edges.size(); i++) {
-    		if (edges.get(i).getUEdge().getID() == vEdgeID) {
-    			edgeIndex = i;
-    			break;
-    		}
-    	}
-    	return edgeIndex;
-    }
-    
-    private Double[][] calculateDistances(String[] initialRoute) {
-    	int n = initialRoute.length;
-    	Double[][] distances = new Double[n][n];
-        for (int i = 0; i < n; i++) {
-            for (int j = i + 1; j < n; j++) {
-                Double distance = calculateDistance(initialRoute[i], initialRoute[j]);
-                distances[i][j] = distance;
-                distances[j][i] = distance;
-            }
-        }
-        return distances;
-    }
-    
-    private Double calculateDistance(String city1, String city2) {
-    	int city1Index = findNodeIndex(city1);
-    	int city2Index = findNodeIndex(city2);
-    	Node city1Node = nodes.get(city1Index);
-    	Node city2Node = nodes.get(city2Index);
-    	Edge city1Edge = new Edge(city1Node, city2Node);
-    	return city1Edge.getEdgeWeight();
-    }
-    
-    private int findNodeIndex(String ID) {
-		int length = nodes.size();
-		int foundIndex = -1;
-		for (int i=0; i < length; i++) {
-			if (nodes.get(i).getID() == ID) {
-				foundIndex = i;
-				break;
-			}
-		}
-		return foundIndex;
-	}
-    
  // Calculate the cost of a given route
-    private static Double calculateCost(Double[][] distances, String[] route) {
+    private static Double calculateCost(HashMap<String, Double> distances, HashMap<String, Node> nodesMap, String[] route) {
     	Double cost = 0.0;
         for (int i = 0; i < route.length - 1; i++) {
-            cost += distances[i][i+1];
+        	cost += Helper.getDistanceBetweenNodes(nodesMap.get(route[i]), nodesMap.get(route[i+1]), distances);
         }
-        cost += distances[route.length - 1][0];
+        cost += Helper.getDistanceBetweenNodes(nodesMap.get(route[route.length - 1]), nodesMap.get(route[0]), distances);
         return cost;
     }
     
@@ -150,17 +92,5 @@ public class SimulatedAnnealingSolver {
         }
         return Math.exp((currentCost - newCost) / temperature);
     }
-    
-    public ArrayList<Edge> generateArrayListOfEdgesFromTour(String[] tour) {
-		ArrayList<Edge> newTour = new ArrayList<>();
-		int n = tour.length;
-		for (int i=0; i < n; i++) {
-			int j = (i + 1) % n;
-	        Edge newEdge = new Edge(nodes.get(findNodeIndex(tour[i])), nodes.get(findNodeIndex(tour[j])));
-	        newTour.add(newEdge);
-		}
-		
-		return newTour;
-	}
 	
 }

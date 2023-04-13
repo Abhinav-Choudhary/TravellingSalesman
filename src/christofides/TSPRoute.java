@@ -4,6 +4,8 @@ import java.util.*;
 
 import christofides.optimizations.GeneticAlgoSolver;
 import christofides.optimizations.SimulatedAnnealingSolver;
+import christofides.optimizations.ThreeOpt;
+import christofides.optimizations.TwoOpt;
 
 public class TSPRoute {
     ArrayList<Node> nodes = new ArrayList<>();
@@ -25,52 +27,43 @@ public class TSPRoute {
         MST mstBuilder = new MST(nodes.size(), nodes);
         // Build MST
         Graph mst = mstBuilder.buildGraph();
-        for(Edge edge: mst.allEdges()) {
-            System.out.println(edge.u.id+" "+edge.v.id);
-        }
+//        for(Edge edge: mst.allEdges()) {
+//            System.out.println(edge.u.id+" "+edge.v.id);
+//        }
+        System.out.println("MST distance: " + mstBuilder.computeDistance());
         // Make all odd degree nodes even
         makeAllNodeDegreeEven(mst);
         // Compute Euler route
         EulerTour eulerTour = new EulerTour(mst);
-        Graph tour = eulerTour.build();
-        for(Edge edge: tour.allEdges()) {
-            System.out.println(edge.u.id+" "+edge.v.id);
-        }
+        Graph tour = eulerTour.buildGraph();
+//        for(Edge edge: tour.allEdges()) {
+//            System.out.println(edge.u.id+" "+edge.v.id);
+//        }
         System.out.println(tour.totalWeight());
         
         //Genetic Algo
-        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
-        String[][] initialPopulation = GASolver.initializePopulation(50);
-        for (int generations = 0; generations < 100; generations++) {
-        	double[] fitness = GASolver.evaluateFitness(initialPopulation);
-        	String[][] parents = GASolver.selectParents(initialPopulation, fitness);
-        	String[][] newPopulation = GASolver.performCrossover(parents, initialPopulation.length);
-        	GASolver.mutatePopulation(newPopulation);
-        	initialPopulation = newPopulation;
-        }
-        
-        double[] fitness = GASolver.evaluateFitness(initialPopulation);
-        int bestTourIndex = GASolver.findBestTourIndex(fitness);
-        String[] GATour = initialPopulation[bestTourIndex];
-        ArrayList<Edge> newGATour = GASolver.generateArrayListOfEdgesFromTour(GATour);
-        Graph GATourGraph = new Graph(newGATour);
-        System.out.println("New Genetic Algorithm Tour");
-        for(Edge edge: GATourGraph.allEdges()) {
-            System.out.println(edge.u.id+" "+edge.v.id);
-        }
-        System.out.println(GATourGraph.totalWeight());
+//        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
+//        Graph GATourGraph = GASolver.buildTour(1500);
+//        System.out.println("New Genetic Algorithm Tour");
+//        System.out.println(GATourGraph.totalWeight());
         
         //Simulated Annealing
         SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
-        String[] originalTour = SASolver.createStringTourFromGraphTour(tour);
-        String[] SATour = SASolver.simulatedAnnealing(originalTour);
-        ArrayList<Edge> newSATour = SASolver.generateArrayListOfEdgesFromTour(SATour);
-        Graph SATourGraph = new Graph(newSATour);
+        Graph SATourGraph = SASolver.buildTour(eulerTour);
         System.out.println("New Simulated Annealing Tour");
-        for(Edge edge: SATourGraph.allEdges()) {
-            System.out.println(edge.u.id+" "+edge.v.id);
-        }
         System.out.println(SATourGraph.totalWeight());
+        
+//        //3 Opt Optimization
+//        ThreeOpt threeOptSolver = new ThreeOpt(tour);
+//        Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
+//        System.out.println("3 Opt Optimization");
+//        System.out.println(threeOptGraph.totalWeight());
+        
+      //2 Opt Optimization
+        TwoOpt twoOptSolver = new TwoOpt(tour);
+        Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
+        System.out.println("2 Opt Optimization");
+        System.out.println(twoOptGraph.totalWeight());
     }
 
     private void makeAllNodeDegreeEven(Graph g) {

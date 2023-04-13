@@ -2,9 +2,9 @@ package christofides;
 
 public class Node {
 	String id;
-    int x;
-    int y;
-    public Node(String id, int x, int y) {
+    Double x;
+    Double y;
+    public Node(String id, Double x, Double y) {
         this.id = id;
         this.x = x;
         this.y = y;

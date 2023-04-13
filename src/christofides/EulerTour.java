@@ -10,13 +10,8 @@ public class EulerTour {
         this.g = g;
     }
 
-    public Graph build() {
-        ArrayList<Node> nodes = g.getNodes();
-        Map<String, Boolean> visited = new HashMap<>();
-        for(Node node: nodes) {
-            visited.put(node.id, false);
-        }
-        dfs(nodes.get(0), visited);
+    public Graph buildGraph() {
+    	build();
         ArrayList<Edge> tourEdges = new ArrayList<>();
         for(int i=0; i<tour.size(); i++) {
             tourEdges.add(new Edge(tour.get(i), tour.get((i+1) % tour.size())));
@@ -31,7 +26,21 @@ public class EulerTour {
             if(!edge.u.equals(curr)) dfs(edge.u, visited);
             else dfs(edge.v, visited);
         }
-        System.out.println("dfs "+curr.id);
         tour.add(curr);
+    }
+    
+    private void build() {
+    	this.tour = new ArrayList<>();
+    	ArrayList<Node> nodes = g.getNodes();
+        Map<String, Boolean> visited = new HashMap<>();
+        for(Node node: nodes) {
+            visited.put(node.id, false);
+        }
+        dfs(nodes.get(0), visited);
+    }
+    
+    public ArrayList<Node> buildVertexTour() {
+    	build();
+    	return tour;
     }
 }
