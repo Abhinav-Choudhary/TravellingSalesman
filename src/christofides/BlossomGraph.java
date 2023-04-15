@@ -5,7 +5,7 @@ import java.util.*;
 class Pair {
     Integer p, q;
 
-    public Pair(int p, int q) {
+    public Pair(Integer p, Integer q) {
         this.p = p;
         this.q = q;
     }
@@ -21,7 +21,8 @@ class BlossomEdge {
 
 class BlossomGraph {
     private Map<String, Integer> weights = new HashMap<>();
-    private ArrayList<String> nodesMapping;
+    private ArrayList<String> nodeList;
+    private HashMap<String, Node> nodeMapping = new HashMap<>();
     private Map<Integer, ArrayList<Integer>> adj = new HashMap<>();
     private int[][] edgeIndex;
     private ArrayList<BlossomEdge> blossomEdges = new ArrayList<>();
@@ -33,12 +34,18 @@ class BlossomGraph {
         for(Edge edge: edges) {
             nodeSet.add(edge.u.id);
             nodeSet.add(edge.v.id);
+            nodeMapping.put(edge.u.id, edge.u);
+            nodeMapping.put(edge.v.id, edge.v);
         }
         // Mapping node id to integer for easier calculation
-        nodesMapping = new ArrayList<>(nodeSet);
+        nodeList = new ArrayList<>(nodeSet);
         edgeIndex = new int[nodeSet.size()][nodeSet.size()];
         for(int[] arr: edgeIndex) Arrays.fill(arr, -1);
-        for(int i=0; i<nodesMapping.size(); i++) adj.put(i, new ArrayList<Integer>());
+        for(int i = 0; i< nodeList.size(); i++) adj.put(i, new ArrayList<Integer>());
+
+        System.out.println("Node count"+nodeSet.size());
+        System.out.println("Edge count"+edges.size());
+
 
         for(Edge edge: edges) {
             int uid = getNodeIndexWithId(edge.u.id);
@@ -51,8 +58,11 @@ class BlossomGraph {
             edgeIndex[vid][uid] = edgeCount;
             edgeCount++;
             blossomEdges.add(new BlossomEdge(uid, vid));
+
+            System.out.println(uid+" "+vid+" "+(int)edge.weight);
         }
     }
+
     
     public Boolean isAdjacent(int u, int v) {
     	return edgeIndex[u][v] != -1;
@@ -65,8 +75,12 @@ class BlossomGraph {
     }
 
     private int getNodeIndexWithId(String id) {
-        for(int i=0; i<nodesMapping.size(); i++) if(nodesMapping.get(i).equals(id)) return i;
+        for(int i = 0; i< nodeList.size(); i++) if(nodeList.get(i).equals(id)) return i;
         return -1;
+    }
+
+    public String getNodeIdWithIndex(int index) {
+        return nodeList.get(index);
     }
 
     public ArrayList<Integer> adj(Integer u) {
@@ -74,7 +88,7 @@ class BlossomGraph {
     }
 
     public int getNodeCount() {
-        return nodesMapping.size();
+        return nodeList.size();
     }
 
     public int getEdgeCount() {
@@ -113,5 +127,10 @@ class BlossomGraph {
             degrees.set(u, adj(u).size());
         }
         return degrees;
+    }
+
+    public Node getNodeWithIndex(int index) {
+        String id = getNodeIdWithIndex(index);
+        return nodeMapping.get(id);
     }
 }

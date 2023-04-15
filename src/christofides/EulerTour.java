@@ -31,7 +31,7 @@ public class EulerTour {
             if(!edge.u.equals(curr)) dfs(edge.u, visited);
             else dfs(edge.v, visited);
         }
-        System.out.println("dfs "+curr.id);
+//        System.out.println("dfs "+curr.id);
         tour.add(curr);
     }
 }

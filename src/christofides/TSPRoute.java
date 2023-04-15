@@ -33,10 +33,10 @@ public class TSPRoute {
         // Compute Euler route
         EulerTour eulerTour = new EulerTour(mst);
         Graph tour = eulerTour.build();
-        for(Edge edge: tour.allEdges()) {
-            System.out.println(edge.u.id+" "+edge.v.id);
-        }
-        System.out.println(tour.totalWeight());
+//        for(Edge edge: tour.allEdges()) {
+//            System.out.println(edge.u.id+" "+edge.v.id);
+//        }
+        System.out.println("Total tour length: "+tour.totalWeight());
     }
 
     private void makeAllNodeDegreeEven(Graph g) {
@@ -53,17 +53,24 @@ public class TSPRoute {
             for(int j=i+1; j<oddDegreeNodes.size(); j++) {
                 Edge newEdge = new Edge(oddDegreeNodes.get(i), oddDegreeNodes.get(j));
                 stronglyConnectedEdges.add(newEdge);
-                System.out.println(newEdge.u.id+" "+newEdge.v.id+" "+newEdge.weight);
+//                System.out.println(newEdge.u.id+" "+newEdge.v.id+" "+(int)newEdge.weight);
             }
         }
         BlossomGraph blossomGraph = new BlossomGraph(stronglyConnectedEdges);
-        DilsonMatching maxMatching = new DilsonMatching(blossomGraph);
-//        try {
-            maxMatching.solveMinimumCostPerfectMatching();
-//        } catch (Exception e) {
-//            System.out.println(e.getLocalizedMessage());
-//        }
 
+
+
+        BlossomMatching maxMatching = new BlossomMatching(blossomGraph);
+        ArrayList<Edge> matchingEdges = new ArrayList<>();
+        try {
+            matchingEdges = maxMatching.solveMinimumCostPerfectMatching();
+        } catch (Exception e) {
+            System.out.println(e.getLocalizedMessage());
+        }
+        for(Edge edge: matchingEdges) {
+            g.addEdge(edge);
+            System.out.println(edge.u.id+" Matched "+edge.v.id);
+        }
 //        for(Node u: oddDegreeNodes) {
 //            if(completedNodes.contains(u)) continue;
 //            Edge shortestEdge = new Edge(null, null);
@@ -83,5 +90,4 @@ public class TSPRoute {
     private boolean isEven(int n) {
         return n%2 == 0;
     }
-
 }

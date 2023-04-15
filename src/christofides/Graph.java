@@ -3,7 +3,7 @@ package christofides;
 import java.util.*;
 
 public class Graph {
-	 ArrayList<Node> nodes = new ArrayList<>();
+	 	ArrayList<Node> nodes = new ArrayList<>();
 	    Map<String, ArrayList<Edge>> adj = new HashMap<String, ArrayList<Edge>>();;
 
 	    private int edgeCount = 0;
@@ -38,6 +38,13 @@ public class Graph {
 	        adj.get(v.id).add(e);
 	        edgeCount++;
 	    }
+
+		public Node getNodeWithId(String id) {
+			for(Node node: nodes) {
+				if(node.id.equals(id)) return node;
+			}
+			return null;
+		}
 
 	    public double getWeight(String uId, String vId) {
 	        Node u = null, v = null;
