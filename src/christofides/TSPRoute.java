@@ -1,5 +1,7 @@
 package christofides;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import christofides.optimizations.GeneticAlgoSolver;
@@ -48,22 +50,23 @@ public class TSPRoute {
 //        System.out.println(GATourGraph.totalWeight());
         
         //Simulated Annealing
-        SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
-        Graph SATourGraph = SASolver.buildTour(eulerTour);
-        System.out.println("New Simulated Annealing Tour");
-        System.out.println(SATourGraph.totalWeight());
-        
-//        //3 Opt Optimization
-//        ThreeOpt threeOptSolver = new ThreeOpt(tour);
-//        Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
-//        System.out.println("3 Opt Optimization");
-//        System.out.println(threeOptGraph.totalWeight());
+//        SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
+//        Graph SATourGraph = SASolver.buildTour(eulerTour);
+//        System.out.println("New Simulated Annealing Tour");
+//        System.out.println(SATourGraph.totalWeight());
         
       //2 Opt Optimization
         TwoOpt twoOptSolver = new TwoOpt(tour);
         Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
         System.out.println("2 Opt Optimization");
         System.out.println(twoOptGraph.totalWeight());
+        
+        
+        //3 Opt Optimization
+//        ThreeOpt threeOptSolver = new ThreeOpt(tour);
+//        Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
+//        System.out.println("3 Opt Optimization");
+//        System.out.println(threeOptGraph.totalWeight());
     }
 
     private void makeAllNodeDegreeEven(Graph g) {

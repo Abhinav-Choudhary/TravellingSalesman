@@ -91,14 +91,18 @@ public class ThreeOpt {
         int improve = 0;
         int size = tour.length;
         String[] currentTour = tour.clone();
+        Double best_distance = this.tour.totalWeight();
 
         while (improve < 5) {
-            Double best_distance = calculateTourDistance(currentTour, size, allDistances, nodesMap);
+//            Double best_distance = calculateTourDistance(currentTour, size, allDistances, nodesMap);
             for (int i = 0; i < size - 2; i++) {
                 for (int j = i + 1; j < size - 1; j++) {
                     for (int k = j + 1; k < size; k++) {
                         String[] new_tour = improveTour(currentTour, size, i, j, k);
-                        Double new_distance = calculateTourDistance(new_tour, size, allDistances, nodesMap);
+//                        Double new_distance = calculateTourDistance(new_tour, size, allDistances, nodesMap);
+                        ArrayList<Edge> newTourEdges = Helper.generateArrayListOfEdgesFromTour(new_tour, nodesMap);
+        				Graph newGraph = new Graph(newTourEdges);
+        				double new_distance = newGraph.totalWeight();
                         if (new_distance < best_distance) {
                         	currentTour = new_tour;
                             best_distance = new_distance;
