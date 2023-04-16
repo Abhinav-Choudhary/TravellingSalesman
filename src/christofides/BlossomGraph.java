@@ -21,7 +21,7 @@ class BlossomEdge {
 
 class BlossomGraph {
     private Map<String, Integer> weights = new HashMap<>();
-    private ArrayList<String> nodeList;
+    private ArrayList<String> nodeList = new ArrayList<>();
     private HashMap<String, Node> nodeMapping = new HashMap<>();
     private Map<Integer, ArrayList<Integer>> adj = new HashMap<>();
     private int[][] edgeIndex;
@@ -32,13 +32,13 @@ class BlossomGraph {
     public BlossomGraph(ArrayList<Edge> edges) {
         HashSet<String> nodeSet = new HashSet<>();
         for(Edge edge: edges) {
+        	if(!nodeSet.contains(edge.u.id))nodeList.add(edge.u.id);
+        	if(!nodeSet.contains(edge.v.id))nodeList.add(edge.v.id);
             nodeSet.add(edge.u.id);
             nodeSet.add(edge.v.id);
             nodeMapping.put(edge.u.id, edge.u);
             nodeMapping.put(edge.v.id, edge.v);
         }
-        // Mapping node id to integer for easier calculation
-        nodeList = new ArrayList<>(nodeSet);
         edgeIndex = new int[nodeSet.size()][nodeSet.size()];
         for(int[] arr: edgeIndex) Arrays.fill(arr, -1);
         for(int i = 0; i< nodeList.size(); i++) adj.put(i, new ArrayList<Integer>());

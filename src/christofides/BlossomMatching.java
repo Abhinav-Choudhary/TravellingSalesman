@@ -120,7 +120,7 @@ public class BlossomMatching {
                     }
                     // If v is even and u and v are on different trees
                     // we found an augmenting path
-                    else if(root.get(outer.get(v)) != root.get(outer.get(u))) {
+                    else if(!root.get(outer.get(v)).equals(root.get(outer.get(u)))) {
                         augment(u,v);
                         reset();
                         cont = true;
@@ -128,7 +128,7 @@ public class BlossomMatching {
                     }
                     // If u and v are even and on the same tree
                     // we found a blossom
-                    else if(outer.get(u) != outer.get(v)) {
+                    else if(!outer.get(u).equals(outer.get(v))) {
                         Integer b = blossom(u,v);
                         forestList.addFirst(b);
                         visited.set(b, true);
@@ -186,7 +186,7 @@ public class BlossomMatching {
             if(mate.get(outer.get(u)) == -1) {
                 int min = -1;
                 for(int v: g.adj(u)) {
-                    if(isEdgeBlocked(u, v) || (outer.get(u) == outer.get(v)) || (mate.get(outer.get(v)) != -1)) continue;
+                    if(isEdgeBlocked(u, v) || (outer.get(u).equals(outer.get(v))) || (mate.get(outer.get(v)) != -1)) continue;
                     if(min == -1 || (degree.get(v) < degree.get(min))) min = v;
                 }
                 if(min != -1) {
@@ -417,7 +417,7 @@ public class BlossomMatching {
                     e1 = slack.get(i);
                     inite1 = true;
                 }
-            } else if((outer.get(u) != outer.get(v)) && type.get(outer.get(u)) == EVEN && type.get(outer.get(v)) == EVEN ) {
+            } else if((!outer.get(u).equals(outer.get(v))) && type.get(outer.get(u)) == EVEN && type.get(outer.get(v)) == EVEN ) {
                 if(!inite2 || (e2 > slack.get(i))) {
                     e2 = slack.get(i);
                     inite2 = true;
@@ -450,7 +450,7 @@ public class BlossomMatching {
         for(int i = 0; i < m; i++) {
             int u = g.getEdge(i).u;
             int v = g.getEdge(i).v;
-            if(outer.get(u) != outer.get(v)) {
+            if(!outer.get(u).equals(outer.get(v))) {
                 if(type.get(outer.get(u)) == EVEN && type.get(outer.get(v)) == EVEN)
                     slack.set(i, slack.get(i)-2.0*e);
 			    else if(type.get(outer.get(u)) == ODD && type.get(outer.get(v)) == ODD)

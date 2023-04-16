@@ -65,7 +65,10 @@ public class TSPRoute {
         try {
             matchingEdges = maxMatching.solveMinimumCostPerfectMatching();
         } catch (Exception e) {
-            System.out.println(e.getLocalizedMessage());
+        	for(StackTraceElement ele: e.getStackTrace()) {
+        		System.out.println(ele.toString());
+        	}
+            
         }
         for(Edge edge: matchingEdges) {
             g.addEdge(edge);
