@@ -44,6 +44,7 @@ public class DataNormalizer {
             double normalizedLongitude = (node.getLongitude() - minLongitude) * (normalizationFactor / longitudeRange);
             node.setLatitude(normalizedLatitude);
             node.setLongitude(normalizedLongitude);
+            
         }
 
         return nodes;
@@ -75,7 +76,7 @@ public class DataNormalizer {
         double longitudeRange = maxLongitude - minLongitude;
 
         // Increase normalization factor to scatter the points more
-        double normalizationFactor = 2000.0;
+        double normalizationFactor = 10000000.0;
 
         for (dataProvider.Node node : nodes) {
             double denormalizedLatitude = (node.getLatitude() * latitudeRange / normalizationFactor) + minLatitude;

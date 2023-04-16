@@ -9,7 +9,7 @@ public class Population {
     // Construct a population
     public Population(int populationSize, boolean initialise) {
         tours = new Tour[populationSize];
-        // If we need to initialise a population of tours do so
+        // If we need to initialize a population of tours do so
         if (initialise) {
             // Loop and create individuals
             for (int i = 0; i < populationSize(); i++) {

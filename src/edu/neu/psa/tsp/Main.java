@@ -78,7 +78,8 @@ public class Main extends Application {
                         Circle circle = new Circle(city.getLocation().getX(), city.getLocation().getY(), 10);
                         root.getChildren().add(circle);
                         bestTour = null;
-                        label.setText("Total City: " + CityManager.getInstance().numberOfCities()+" | Ctrl+Space: GA, Space: PSO");
+                        label.setText("Total City: " + CityManager
+                        		.getInstance().numberOfCities()+" | Ctrl+Space: GA, Space: PSO");
                     });
                 }catch (FileNotFoundException ex){
 

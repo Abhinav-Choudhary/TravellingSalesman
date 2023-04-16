@@ -1,19 +1,29 @@
 package uiHelper;
-
+import helper.model.City;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import uiHelper.DataNormalizer;
 import uiHelper.dataProvider;
-
+import helper.*;
+import helper.genetic.GASolver;
+import helper.model.CityManager;
+import helper.model.Tour;
+import helper.pso.Swarm;
 import java.util.ArrayList;
 
+
 public class main extends Application {
-    public static void main(String[] args) {
+	
+    
+	public static void main(String[] args) {
         launch(args);
     }
 
@@ -29,6 +39,12 @@ public class main extends Application {
         // Call the DataNormalizer class to normalize the data
         DataNormalizer dataNormalizer = new DataNormalizer(nodes);
         ArrayList<dataProvider.Node> normalizedNodes = dataNormalizer.normalizeData();
+        
+
+        //function to get arrayList of normalized city nodes. 
+
+  
+        
 
         // Print normalized latitude and longitude values
         System.out.println("Normalized Latitude and Longitude Values:");
@@ -73,9 +89,12 @@ public class main extends Application {
             circle.setFill(Color.BLUE); // Set fill color of the circle
             root.getChildren().add(circle); // Add circle to the group
         }
-
-        // Create a scene and set it to the stage
         Scene scene = new Scene(root, 800, 600);
+        Tour bestTour;
+        
+        
+        
+        
         stage.setScene(scene);
         stage.show();
     }
