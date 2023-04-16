@@ -1,7 +1,9 @@
 package helper.model;
 
-import javafx.geometry.Point2D;
+
 import java.util.Objects;
+
+import javafx.geometry.Point2D;
 
 public class City implements Comparable<City> {
 	 private final Point2D location;
