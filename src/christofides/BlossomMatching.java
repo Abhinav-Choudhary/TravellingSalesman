@@ -236,9 +236,10 @@ public class BlossomMatching {
         boolean found = false;
         int is = 0;
         // Find the position t of the new tip of the blossom
-        while (is < shallow.get(u).size()) {
+        ArrayList<Integer> shallowInitialArray = (ArrayList<Integer>) shallow.get(u).clone();
+        while (is < shallowInitialArray.size()) {
         	if(found) break;
-        	int si = is;
+        	int si = shallowInitialArray.get(is);
             for(int jt: deep.get(si)) {
                 if(found) break;
                 if(jt == p) found = true;
@@ -508,6 +509,7 @@ public class BlossomMatching {
         for(int it: matching)
             obj += cost.get(it);
 
+        System.out.println("Maximum matching cost "+obj);
         double dualObj = 0;
         for(int i = 0; i < 2*n; i++) {
             if(i < n) dualObj += dual.get(i);
@@ -529,9 +531,7 @@ public class BlossomMatching {
             Node u = g.getNodeWithIndex(pair.p);
             Node v = g.getNodeWithIndex(pair.q);
             edges.add(new Edge(u, v));
-        }
-        for(Edge edge: edges) {
-            System.out.println("Maximum Matching: "+edge.u.id+" "+edge.v.id);
+            System.out.println("Maximum Matching: "+pair.p+" "+pair.q);
         }
         return edges;
     }

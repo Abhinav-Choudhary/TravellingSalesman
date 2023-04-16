@@ -68,11 +68,9 @@ public class TSPRoute {
         	for(StackTraceElement ele: e.getStackTrace()) {
         		System.out.println(ele.toString());
         	}
-            
         }
         for(Edge edge: matchingEdges) {
             g.addEdge(edge);
-            System.out.println(edge.u.id+" Matched "+edge.v.id);
         }
 //        for(Node u: oddDegreeNodes) {
 //            if(completedNodes.contains(u)) continue;
