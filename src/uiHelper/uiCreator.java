@@ -2,9 +2,12 @@ package uiHelper;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -21,9 +24,9 @@ import java.util.ArrayList;
 import christofides.*;
 
 public class uiCreator extends Application {
-    
+
     private Graph graph; // Graph object to be displayed in UI
-    
+
     public uiCreator() {
         // Default constructor with no arguments
     }
@@ -38,15 +41,15 @@ public class uiCreator extends Application {
 
     @Override
     public void start(Stage stage) {
-    	
-    	graph = randomGraphGenerator.generateRandomGraph();
+
+        graph = randomGraphGenerator.generateRandomGraphWithLoops();
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
         double maxLongitude = Double.MIN_VALUE;
-        
-        for (christofides.Node  node : graph.getNodes()) {
+
+        for (christofides.Node node : graph.getNodes()) {
             double latitude = node.x;
             double longitude = node.y;
             minLatitude = Math.min(minLatitude, latitude);
@@ -74,31 +77,92 @@ public class uiCreator extends Application {
             double radius = 5; // Radius of the circle representing the data point
             Circle circle = new Circle(scaledX, scaledY, radius);
             circle.setFill(Color.BLUE); // Set fill color of the circle
-            
+
             // Extract last six characters of ID
             String id = node.getID();
             String label = id.substring(Math.max(0, id.length() - 6));
-            
+
             // Create label for the circle
             javafx.scene.control.Label labelNode = new javafx.scene.control.Label(label);
             labelNode.setLayoutX(scaledX - 10); // Adjust x-coordinate for label placement
             labelNode.setLayoutY(scaledY - 10); // Adjust y-coordinate for label placement
             root.getChildren().addAll(circle, labelNode); // Add circle and label to the group
         }
-        
+
         for (Edge edge : graph.allEdges()) {
             christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
-            christofides.Node node2 = edge.v; // Assuming 'v' represents the end node of the edge
-            double x1 = (node1.x - centerX) * scaleX + 400; // Adjust x-coordinate as needed
-            double y1 = (node1.y - centerY) * scaleY + 300; // Adjust y-coordinate as needed
-            double x2 = (node2.x - centerX) * scaleX + 400; // Adjust x-coordinate as needed
-            double y2 = (node2.y - centerY) * scaleY + 300; // Adjust y-coordinate as needed
-            Line line = new Line(x1, y1, x2, y2);
-            line.setStroke(Color.GREEN); // Set stroke color of the line
+            christofides.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
+            // Scale the coordinates of the start and end nodes based on the center point and scaling factors
+            double startX = (node1.x - centerX) * scaleX + 400;
+            double startY = (node1.y - centerY) * scaleY + 300;
+            double endX = (node2.x - centerX) * scaleX + 400;
+            double endY = (node2.y - centerY) * scaleY + 300;
+
+            // Create a line to represent the edge
+            Line line = new Line(startX, startY, endX, endY);
             root.getChildren().add(line); // Add line to the group
         }
-        Scene scene = new Scene(root, 800, 600);
+
+        // Create a Pane to hold the Group
+        Pane pane = new Pane();
+        pane.getChildren().add(root); // Add group to the pane
+
+        // Create buttons for different optimization algorithms
+        Button btnGA = new Button("Genetic Algorithm");
+        Button btnSA = new Button("Simulated Annealing");
+        Button btn2Opt = new Button("Two-Opt Optimization");
+        Button btn3Opt = new Button("Three-Opt Optimization");
+
+        // Set the layout of the buttons
+        btnGA.setLayoutX(20);
+        btnGA.setLayoutY(20);
+        btnSA.setLayoutX(20);
+        btnSA.setLayoutY(60);
+        btn2Opt.setLayoutX(20);
+        btn2Opt.setLayoutY(100);
+        btn3Opt.setLayoutX(20);
+        btn3Opt.setLayoutY(140);
+
+        // Set the event handlers for the buttons
+        btnGA.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Call the Genetic Algorithm
+
+            }
+        });
+
+        btnSA.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Call the SimulatedAnnealing Algorithm
+
+            }
+        });
+
+        btn2Opt.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Call 2Opt Optimization 
+                System.out.println("Ant Colony Optimization: ");
+            }
+        });
+
+        btn3Opt.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                // Call the 3Opt optimization Algorithm
+;
+            }
+        });
+
+        // Add buttons to the pane
+        pane.getChildren().addAll(btnGA, btnSA, btn2Opt, btn3Opt);
+
+        // Create a scene and set it on the stage
+        Scene scene = new Scene(pane, 800, 600);
         stage.setScene(scene);
+        stage.setTitle("TSP Solver");
         stage.show();
     }
 }
