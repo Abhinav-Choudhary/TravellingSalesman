@@ -18,45 +18,31 @@ import helper.model.CityManager;
 import helper.model.Tour;
 import helper.pso.Swarm;
 import java.util.ArrayList;
-import christofides.Edge;
+import christofides.*;
 
-
-public class main extends Application {
-	
+public class uiCreator extends Application {
     
-	public static void main(String[] args) {
+    private Graph graph; // Graph object to be displayed in UI
+
+    public uiCreator(Graph graph) {
+        this.graph = graph;
+    }
+
+    public static void main(String[] args) {
         launch(args);
     }
 
     @Override
     public void start(Stage stage) {
-        // Provide the path of the CSV file
-        String csvFile = "C:\\Users\\kcsar\\TravellingSalesman\\src\\uiHelper\\data.txt";
-
-        // Call the dataProvider class to parse the data
-        dataProvider dataProvider = new dataProvider(csvFile);
-        ArrayList<dataProvider.Node> nodes = dataProvider.parseData();
-
-        // Call the DataNormalizer class to normalize the data
-        DataNormalizer dataNormalizer = new DataNormalizer(nodes);
-        ArrayList<dataProvider.Node> normalizedNodes = dataNormalizer.normalizeData();
-
-        // Print normalized latitude and longitude values
-        System.out.println("Normalized Latitude and Longitude Values:");
-        int k = 1;
-        for (dataProvider.Node node : normalizedNodes) {
-            System.out.println(k + " Latitude: " + node.getLatitude() + ", Longitude: " + node.getLongitude());
-            k++;
-        }
-
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
         double maxLongitude = Double.MIN_VALUE;
-        for (dataProvider.Node node : normalizedNodes) {
-            double latitude = node.getLatitude();
-            double longitude = node.getLongitude();
+        
+        for (christofides.Node  node : graph.getNodes()) {
+            double latitude = node.x;
+            double longitude = node.y;
             minLatitude = Math.min(minLatitude, latitude);
             maxLatitude = Math.max(maxLatitude, latitude);
             minLongitude = Math.min(minLongitude, longitude);
@@ -73,9 +59,9 @@ public class main extends Application {
         Group root = new Group();
 
         // Add circles for each normalized latitude and longitude values
-        for (dataProvider.Node node : normalizedNodes) {
-            double latitude = node.getLatitude();
-            double longitude = node.getLongitude();
+        for (christofides.Node node : graph.getNodes()) {
+            double latitude = node.x;
+            double longitude = node.y;
             // Scale the coordinates based on the center point and scaling factors
             double scaledX = (latitude - centerX) * scaleX + 400;
             double scaledY = (longitude - centerY) * scaleY + 300;
@@ -84,6 +70,7 @@ public class main extends Application {
             circle.setFill(Color.BLUE); // Set fill color of the circle
             root.getChildren().add(circle); // Add circle to the group
         }
+        
         Scene scene = new Scene(root, 800, 600);
         stage.setScene(scene);
         stage.show();

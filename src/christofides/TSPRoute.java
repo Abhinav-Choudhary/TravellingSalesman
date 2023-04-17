@@ -8,8 +8,12 @@ import christofides.optimizations.GeneticAlgoSolver;
 import christofides.optimizations.SimulatedAnnealingSolver;
 import christofides.optimizations.ThreeOpt;
 import christofides.optimizations.TwoOpt;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import uiHelper.DataNormalizer;
+import uiHelper.uiCreator;;
 
-public class TSPRoute {
+public class TSPRoute{
     ArrayList<Node> nodes = new ArrayList<>();
 
     public TSPRoute() {}
@@ -42,6 +46,17 @@ public class TSPRoute {
 //            System.out.println(edge.u.id+" "+edge.v.id);
 //        }
         System.out.println(tour.totalWeight());
+        
+
+        DataNormalizer normalizer = new DataNormalizer();
+		  Graph normalizedTour =  normalizer.normalizeData(tour);
+		  
+        for(int i = 0; i < normalizedTour.getVertexCount(); i++) {
+        	System.out.print("Lat = " + normalizedTour.nodes.get(i).getX()+ " ");
+        	System.out.println("Lon = " + normalizedTour.nodes.get(i).getY());
+        }
+
+
         
         //Genetic Algo
 //        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);

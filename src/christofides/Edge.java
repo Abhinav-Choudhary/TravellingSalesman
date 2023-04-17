@@ -3,9 +3,9 @@ package christofides;
 import java.util.Objects;
 
 public class Edge {
-	Node u;
-    Node v;
-    double weight;
+	public Node u;
+    public Node v;
+    public double weight;
     public Edge(Node u, Node v) {
         this.u = u;
         this.v = v;

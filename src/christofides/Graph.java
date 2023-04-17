@@ -5,10 +5,16 @@ import java.util.*;
 public class Graph {
     ArrayList<Node> nodes = new ArrayList<>();
     Map<String, ArrayList<Edge>> adj = new HashMap<String, ArrayList<Edge>>();
+    
 
     private int edgeCount = 0;
+    
 
-    public Graph(ArrayList<Edge> edges) {
+    public Graph() {
+        // Empty constructor
+    }
+
+	public Graph(ArrayList<Edge> edges) {
         HashSet<Node> nodeSet = new HashSet<>();
         for(Edge edge: edges) {
             nodeSet.add(edge.u);
