@@ -23,6 +23,10 @@ import christofides.*;
 public class uiCreator extends Application {
     
     private Graph graph; // Graph object to be displayed in UI
+    
+    public uiCreator() {
+        // Default constructor with no arguments
+    }
 
     public uiCreator(Graph graph) {
         this.graph = graph;
@@ -34,6 +38,8 @@ public class uiCreator extends Application {
 
     @Override
     public void start(Stage stage) {
+    	
+    	graph = randomGraphGenerator.generateRandomGraph();
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
@@ -65,12 +71,32 @@ public class uiCreator extends Application {
             // Scale the coordinates based on the center point and scaling factors
             double scaledX = (latitude - centerX) * scaleX + 400;
             double scaledY = (longitude - centerY) * scaleY + 300;
-            double radius = 2; // Radius of the circle representing the data point
+            double radius = 5; // Radius of the circle representing the data point
             Circle circle = new Circle(scaledX, scaledY, radius);
             circle.setFill(Color.BLUE); // Set fill color of the circle
-            root.getChildren().add(circle); // Add circle to the group
+            
+            // Extract last six characters of ID
+            String id = node.getID();
+            String label = id.substring(Math.max(0, id.length() - 6));
+            
+            // Create label for the circle
+            javafx.scene.control.Label labelNode = new javafx.scene.control.Label(label);
+            labelNode.setLayoutX(scaledX - 10); // Adjust x-coordinate for label placement
+            labelNode.setLayoutY(scaledY - 10); // Adjust y-coordinate for label placement
+            root.getChildren().addAll(circle, labelNode); // Add circle and label to the group
         }
         
+        for (Edge edge : graph.allEdges()) {
+            christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+            christofides.Node node2 = edge.v; // Assuming 'v' represents the end node of the edge
+            double x1 = (node1.x - centerX) * scaleX + 400; // Adjust x-coordinate as needed
+            double y1 = (node1.y - centerY) * scaleY + 300; // Adjust y-coordinate as needed
+            double x2 = (node2.x - centerX) * scaleX + 400; // Adjust x-coordinate as needed
+            double y2 = (node2.y - centerY) * scaleY + 300; // Adjust y-coordinate as needed
+            Line line = new Line(x1, y1, x2, y2);
+            line.setStroke(Color.GREEN); // Set stroke color of the line
+            root.getChildren().add(line); // Add line to the group
+        }
         Scene scene = new Scene(root, 800, 600);
         stage.setScene(scene);
         stage.show();

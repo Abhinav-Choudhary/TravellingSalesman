@@ -24,6 +24,10 @@ public class Graph {
         for(Node node: nodeSet) adj.put(node.id, new ArrayList<Edge>());
         for(Edge edge: edges) addEdge(edge);
     }
+	
+	public ArrayList<Edge> getEdges() {
+	    return allEdges();
+	}
 
     public int getEdgeCount() {
         return edgeCount;

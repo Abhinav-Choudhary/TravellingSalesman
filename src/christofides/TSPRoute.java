@@ -55,6 +55,8 @@ public class TSPRoute{
         	System.out.print("Lat = " + normalizedTour.nodes.get(i).getX()+ " ");
         	System.out.println("Lon = " + normalizedTour.nodes.get(i).getY());
         }
+        
+        
 
 
         

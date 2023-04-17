@@ -6,6 +6,7 @@ public class Edge {
 	public Node u;
     public Node v;
     public double weight;
+    
     public Edge(Node u, Node v) {
         this.u = u;
         this.v = v;
