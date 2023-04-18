@@ -1,13 +1,13 @@
-package christofides.optimizations;
+package christofidesAlgo.optimizations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import christofides.Edge;
-import christofides.EulerTour;
-import christofides.Graph;
-import christofides.Node;
+import christofidesAlgo.Edge;
+import christofidesAlgo.EulerTour;
+import christofidesAlgo.Graph;
+import christofidesAlgo.Node;
 
 public class SimulatedAnnealingSolver {
 	Graph route;

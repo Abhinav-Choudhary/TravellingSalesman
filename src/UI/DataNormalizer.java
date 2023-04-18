@@ -1,7 +1,7 @@
-package uiHelper;
-import christofides.Graph;
-import christofides.Node;
-import christofides.Edge;
+package UI;
+import christofidesAlgo.Graph;
+import christofidesAlgo.Node;
+import christofidesAlgo.Edge;
 import java.util.ArrayList;
 
 public class DataNormalizer {

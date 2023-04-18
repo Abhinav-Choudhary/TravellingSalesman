@@ -8,10 +8,10 @@ import java.util.HashSet;
 
 import org.junit.jupiter.api.Test;
 
-import christofides.Node;
-import christofides.Edge;
-import christofides.Graph;
-import christofides.MST;
+import christofidesAlgo.Node;
+import christofidesAlgo.Edge;
+import christofidesAlgo.Graph;
+import christofidesAlgo.MST;
 
 class MstTest {
 

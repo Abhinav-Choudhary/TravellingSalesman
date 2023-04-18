@@ -1,15 +1,15 @@
-package christofides;
+package christofidesAlgo;
 
 import java.util.*;
 
-import christofides.optimizations.GeneticAlgoSolver;
-import christofides.optimizations.SimulatedAnnealingSolver;
-import christofides.optimizations.ThreeOpt;
-import christofides.optimizations.TwoOpt;
+import UI.DataNormalizer;
+import UI.UICreator;
+import christofidesAlgo.optimizations.GeneticAlgoSolver;
+import christofidesAlgo.optimizations.SimulatedAnnealingSolver;
+import christofidesAlgo.optimizations.ThreeOpt;
+import christofidesAlgo.optimizations.TwoOpt;
 import javafx.application.Application;
-import javafx.stage.Stage;
-import uiHelper.DataNormalizer;
-import uiHelper.UICreator;;
+import javafx.stage.Stage;;
 
 public class TSPRoute {
 	ArrayList<Node> nodes = new ArrayList<>();
