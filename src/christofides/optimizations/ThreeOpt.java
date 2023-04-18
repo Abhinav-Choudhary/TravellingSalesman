@@ -23,8 +23,8 @@ public class ThreeOpt {
 		String[] originalTour = Helper.getStringTourFromVertexTour(eulerTour);
 		HashMap<String, Double> allDistances = Helper.calculateAllDistances(numVertices, nodes);
 		HashMap<String, Node> mappedNodes = Helper.mapNodes(originalTour, numVertices, nodes);
-//		String[] modifiedTour = threeOptSolver(originalTour, allDistances, mappedNodes);
-		String[] modifiedTour = threeOptAlternateSolver(originalTour, allDistances, mappedNodes);
+		String[] modifiedTour = threeOptSolver(originalTour, allDistances, mappedNodes);
+//		String[] modifiedTour = threeOptAlternateSolver(originalTour, allDistances, mappedNodes);
 		ArrayList<Edge> newTour = Helper.generateArrayListOfEdgesFromTour(modifiedTour, mappedNodes);
 		return new Graph(newTour);
 	}

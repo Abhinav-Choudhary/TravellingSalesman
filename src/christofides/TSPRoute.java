@@ -44,29 +44,29 @@ public class TSPRoute {
         System.out.println(tour.totalWeight());
         
         //Genetic Algo
-//        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
-//        Graph GATourGraph = GASolver.buildTour(1500);
-//        System.out.println("New Genetic Algorithm Tour");
-//        System.out.println(GATourGraph.totalWeight());
+        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
+        Graph GATourGraph = GASolver.buildTour(1500);
+        System.out.println("New Genetic Algorithm Tour");
+        System.out.println(GATourGraph.totalWeight());
         
         //Simulated Annealing
-//        SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
-//        Graph SATourGraph = SASolver.buildTour(eulerTour);
-//        System.out.println("New Simulated Annealing Tour");
-//        System.out.println(SATourGraph.totalWeight());
+        SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
+        Graph SATourGraph = SASolver.buildTour(eulerTour);
+        System.out.println("New Simulated Annealing Tour");
+        System.out.println(SATourGraph.totalWeight());
         
       //2 Opt Optimization
-        TwoOpt twoOptSolver = new TwoOpt(tour);
+        TwoOpt twoOptSolver = new TwoOpt(SATourGraph);
         Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
         System.out.println("2 Opt Optimization");
         System.out.println(twoOptGraph.totalWeight());
         
         
         //3 Opt Optimization
-//        ThreeOpt threeOptSolver = new ThreeOpt(tour);
-//        Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
-//        System.out.println("3 Opt Optimization");
-//        System.out.println(threeOptGraph.totalWeight());
+        ThreeOpt threeOptSolver = new ThreeOpt(tour);
+        Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
+        System.out.println("3 Opt Optimization");
+        System.out.println(threeOptGraph.totalWeight());
     }
 
     private void makeAllNodeDegreeEven(Graph g) {
