@@ -16,10 +16,6 @@ public class Edge {
     public double getEdgeWeight() {
     	return this.weight;
     }
-
-    public int compareWeightTo(Edge that) {
-        return Double.compare(this.weight, that.weight);
-    }
     
     public Node getUEdge() {
     	return this.u;
@@ -54,5 +50,9 @@ public class Edge {
     public int hashCode() {
     	String idString = u.id+"#"+v.id;
     	return idString.hashCode();
+    }
+
+    public int compareWeightTo(Edge that) {
+        return Double.compare(this.weight, that.weight);
     }
 }

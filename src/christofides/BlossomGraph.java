@@ -43,9 +43,6 @@ class BlossomGraph {
         for(int[] arr: edgeIndex) Arrays.fill(arr, -1);
         for(int i = 0; i< nodeList.size(); i++) adj.put(i, new ArrayList<Integer>());
 
-        System.out.println("Node count"+nodeSet.size());
-        System.out.println("Edge count"+edges.size());
-
 
         for(Edge edge: edges) {
             int uid = getNodeIndexWithId(edge.u.id);
@@ -58,8 +55,6 @@ class BlossomGraph {
             edgeIndex[vid][uid] = edgeCount;
             edgeCount++;
             blossomEdges.add(new BlossomEdge(uid, vid));
-
-            System.out.println(uid+" "+vid+" "+(int)edge.weight);
         }
     }
 

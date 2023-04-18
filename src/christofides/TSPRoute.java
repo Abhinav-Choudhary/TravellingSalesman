@@ -97,7 +97,7 @@ public class TSPRoute {
     	MST mstBuilder = new MST(nodes.size(), nodes);
         // Build MST
         Graph mst = mstBuilder.buildGraph();
-        System.out.println(mst.totalWeight());
+        System.out.println("MST Distance: " + mst.totalWeight());
         // Make all odd degree nodes even
         makeAllNodeDegreeEven(mst);
         // Compute Euler route
