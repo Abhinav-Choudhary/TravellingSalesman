@@ -2,10 +2,10 @@ package christofides;
 
 import java.util.*;
 
-//import christofides.optimizations.GeneticAlgoSolver;
-//import christofides.optimizations.SimulatedAnnealingSolver;
-//import christofides.optimizations.ThreeOpt;
-//import christofides.optimizations.TwoOpt;
+import christofides.optimizations.GeneticAlgoSolver;
+import christofides.optimizations.SimulatedAnnealingSolver;
+import christofides.optimizations.ThreeOpt;
+import christofides.optimizations.TwoOpt;
 
 public class TSPRoute {
 	ArrayList<Node> nodes = new ArrayList<>();
@@ -27,43 +27,34 @@ public class TSPRoute {
         MST mstBuilder = new MST(nodes.size(), nodes);
         // Build MST
         Graph mst = mstBuilder.buildGraph();
-        System.out.println(mst.totalWeight());
+        System.out.println("MST Distance: " + mst.totalWeight());
         // Make all odd degree nodes even
         makeAllNodeDegreeEven(mst);
         // Compute Euler route
         EulerTour eulerTour = new EulerTour(mst);
-        Graph tour = eulerTour.build();
-//        for(Edge edge: tour.allEdges()) {
-//            System.out.println(edge.u.id+" "+edge.v.id);
-//        }
-        System.out.println(tour.totalWeight());
+        Graph tour = eulerTour.buildGraph();
+        System.out.println("Tour length: "+tour.totalWeight());
         
         //Genetic Algo
         GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
-        Graph GATourGraph = GASolver.buildTour(1500);
-        System.out.println("New Genetic Algorithm Tour");
-        System.out.println(GATourGraph.totalWeight());
+        Graph GATourGraph = GASolver.buildTour(1000);
+        System.out.println("Genetic Algorithm Tour: " + GATourGraph.totalWeight());
         
         //Simulated Annealing
         SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
         Graph SATourGraph = SASolver.buildTour(eulerTour);
-        System.out.println("New Simulated Annealing Tour");
-        System.out.println(SATourGraph.totalWeight());
+        System.out.println("Simulated Annealing Tour: " + SATourGraph.totalWeight());
         
       //2 Opt Optimization
-        TwoOpt twoOptSolver = new TwoOpt(SATourGraph);
+        TwoOpt twoOptSolver = new TwoOpt(tour);
         Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
-        System.out.println("2 Opt Optimization");
-        System.out.println(twoOptGraph.totalWeight());
+        System.out.println("2 Opt Optimization: " + twoOptGraph.totalWeight());
         
         
         //3 Opt Optimization
         ThreeOpt threeOptSolver = new ThreeOpt(tour);
         Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
-        System.out.println("3 Opt Optimization");
-        System.out.println(threeOptGraph.totalWeight());
-
-        System.out.println("Total tour length: "+tour.totalWeight());
+        System.out.println("3 Opt Optimization: " + threeOptGraph.totalWeight());
     }
 
     private void makeAllNodeDegreeEven(Graph g) {
@@ -80,7 +71,6 @@ public class TSPRoute {
             for(int j=i+1; j<oddDegreeNodes.size(); j++) {
                 Edge newEdge = new Edge(oddDegreeNodes.get(i), oddDegreeNodes.get(j));
                 stronglyConnectedEdges.add(newEdge);
-//                System.out.println(newEdge.u.id+" "+newEdge.v.id+" "+(int)newEdge.weight);
             }
         }
         BlossomGraph blossomGraph = new BlossomGraph(stronglyConnectedEdges);

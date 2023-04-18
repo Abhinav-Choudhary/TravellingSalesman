@@ -509,7 +509,6 @@ public class BlossomMatching {
         for(int it: matching)
             obj += cost.get(it);
 
-        System.out.println("Maximum matching cost "+obj);
         double dualObj = 0;
         for(int i = 0; i < 2*n; i++) {
             if(i < n) dualObj += dual.get(i);
@@ -531,7 +530,6 @@ public class BlossomMatching {
             Node u = g.getNodeWithIndex(pair.p);
             Node v = g.getNodeWithIndex(pair.q);
             edges.add(new Edge(u, v));
-            System.out.println("Maximum Matching: "+pair.p+" "+pair.q);
         }
         return edges;
     }
