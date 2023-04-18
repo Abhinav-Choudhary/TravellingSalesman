@@ -72,7 +72,7 @@ public class TSPRoute {
       // Genetic Algo
       Graph tour = buildChristofides();
       GeneticAlgoSolver gaSolver = new GeneticAlgoSolver(tour);
-      Graph gaTourGraph = gaSolver.buildTour(1500);
+      Graph gaTourGraph = gaSolver.buildTour(1000);
       System.out.println("New Genetic Algorithm Tour");
       System.out.println(gaTourGraph.totalWeight());
       return gaTourGraph;
