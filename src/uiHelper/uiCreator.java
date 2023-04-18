@@ -42,7 +42,9 @@ public class uiCreator extends Application {
     @Override
     public void start(Stage stage) {
 
-        graph = randomGraphGenerator.generateRandomGraphWithLoops();
+        graph = randomGraphGenerator.generateRandomGraph();
+        
+        
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
@@ -128,6 +130,25 @@ public class uiCreator extends Application {
             @Override
             public void handle(ActionEvent event) {
                 // Call the Genetic Algorithm
+//                for (Edge edge : graph.allEdges()) {
+//                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+//                    christofides.Node node2 = edge.v; // Assuming 'v' represents the end node of the edge
+//                    int index1 = updatedTour.getTour().indexOf(node1); // Get the index of node1 in the updated tour
+//                    int index2 = updatedTour.getTour().indexOf(node2); // Get the index of node2 in the updated tour
+//
+//                    // If both nodes are found in the updated tour, update the line representing the edge
+//                    if (index1 != -1 && index2 != -1) {
+//                        // Scale the coordinates of the start and end nodes based on the center point and scaling factors
+//                        double startX = (node1.x - centerX) * scaleX + 400;
+//                        double startY = (node1.y - centerY) * scaleY + 300;
+//                        double endX = (node2.x - centerX) * scaleX + 400;
+//                        double endY = (node2.y - centerY) * scaleY + 300;
+//
+//                        // Create a new line with updated coordinates
+//                        Line line = new Line(startX, startY, endX, endY);
+//                        root.getChildren().add(line); // Add line to the group
+//                    }
+//                }
 
             }
         });
@@ -136,6 +157,27 @@ public class uiCreator extends Application {
             @Override
             public void handle(ActionEvent event) {
                 // Call the SimulatedAnnealing Algorithm
+            	
+//            	
+//                for (Edge edge : graph.allEdges()) {
+//                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+//                    christofides.Node node2 = edge.v; // Assuming 'v' represents the end node of the edge
+//                    int index1 = updatedTour.getTour().indexOf(node1); // Get the index of node1 in the updated tour
+//                    int index2 = updatedTour.getTour().indexOf(node2); // Get the index of node2 in the updated tour
+//
+//                    // If both nodes are found in the updated tour, update the line representing the edge
+//                    if (index1 != -1 && index2 != -1) {
+//                        // Scale the coordinates of the start and end nodes based on the center point and scaling factors
+//                        double startX = (node1.x - centerX) * scaleX + 400;
+//                        double startY = (node1.y - centerY) * scaleY + 300;
+//                        double endX = (node2.x - centerX) * scaleX + 400;
+//                        double endY = (node2.y - centerY) * scaleY + 300;
+//
+//                        // Create a new line with updated coordinates
+//                        Line line = new Line(startX, startY, endX, endY);
+//                        root.getChildren().add(line); // Add line to the group
+//                    }
+//                }
 
             }
         });
@@ -145,6 +187,26 @@ public class uiCreator extends Application {
             public void handle(ActionEvent event) {
                 // Call 2Opt Optimization 
                 System.out.println("Ant Colony Optimization: ");
+                
+//                for (Edge edge : graph.allEdges()) {
+//                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+//                    christofides.Node node2 = edge.v; // Assuming 'v' represents the end node of the edge
+//                    int index1 = updatedTour.getTour().indexOf(node1); // Get the index of node1 in the updated tour
+//                    int index2 = updatedTour.getTour().indexOf(node2); // Get the index of node2 in the updated tour
+//
+//                    // If both nodes are found in the updated tour, update the line representing the edge
+//                    if (index1 != -1 && index2 != -1) {
+//                        // Scale the coordinates of the start and end nodes based on the center point and scaling factors
+//                        double startX = (node1.x - centerX) * scaleX + 400;
+//                        double startY = (node1.y - centerY) * scaleY + 300;
+//                        double endX = (node2.x - centerX) * scaleX + 400;
+//                        double endY = (node2.y - centerY) * scaleY + 300;
+//
+//                        // Create a new line with updated coordinates
+//                        Line line = new Line(startX, startY, endX, endY);
+//                        root.getChildren().add(line); // Add line to the group
+//                    }
+//                }
             }
         });
 
@@ -152,6 +214,28 @@ public class uiCreator extends Application {
             @Override
             public void handle(ActionEvent event) {
                 // Call the 3Opt optimization Algorithm
+            	
+            	
+//                for (Edge edge : graph.allEdges()) {
+//                	
+//                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+//                    christofides.Node node2 = edge.v; // Assuming 'v' represents the end node of the edge
+//                    int index1 = updatedTour.getTour().indexOf(node1); // Get the index of node1 in the updated tour
+//                    int index2 = updatedTour.getTour().indexOf(node2); // Get the index of node2 in the updated tour
+//
+//                    // If both nodes are found in the updated tour, update the line representing the edge
+//                    if (index1 != -1 && index2 != -1) {
+//                        // Scale the coordinates of the start and end nodes based on the center point and scaling factors
+//                        double startX = (node1.x - centerX) * scaleX + 400;
+//                        double startY = (node1.y - centerY) * scaleY + 300;
+//                        double endX = (node2.x - centerX) * scaleX + 400;
+//                        double endY = (node2.y - centerY) * scaleY + 300;
+//
+//                        // Create a new line with updated coordinates
+//                        Line line = new Line(startX, startY, endX, endY);
+//                        root.getChildren().add(line); // Add line to the group
+//                    }
+//                }
 ;
             }
         });
@@ -160,7 +244,7 @@ public class uiCreator extends Application {
         pane.getChildren().addAll(btnGA, btnSA, btn2Opt, btn3Opt);
 
         // Create a scene and set it on the stage
-        Scene scene = new Scene(pane, 800, 600);
+        Scene scene = new Scene(pane, 1000, 800);
         stage.setScene(scene);
         stage.setTitle("TSP Solver");
         stage.show();
