@@ -20,10 +20,11 @@ public class TSPRoute {
     }
 
     public void build(Scanner reader) {
-        int n = reader.nextInt();
-        int pos = 1;
-        while(n-- > 0) {
-            Node node = new Node(reader.next(), reader.nextDouble(), reader.nextDouble());
+        while(reader.hasNextLine()) {
+        	String line = br.nextLine();
+        	String[] data = line.split(",");
+        	String id = data[0].substring(data[0].length() - 5, data[0].length);
+            Node node = new Node(id, Double.valueOf(data[1]), Double.valueOf(data[2]));
             nodes.add(node);
         }
     }

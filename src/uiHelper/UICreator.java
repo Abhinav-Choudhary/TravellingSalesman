@@ -42,7 +42,7 @@ public class UICreator extends Application {
     
     public void initialSetup() { 
     	try {
-    		Scanner reader = new Scanner(new File("src\\uiHelper\\data.txt"));
+    		Scanner reader = new Scanner(new File("src\\uiHelper\\data.csv"));
             TSPRoute.shared.build(reader);
             reader.close();
     	} catch(FileNotFoundException e) {
