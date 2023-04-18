@@ -1,7 +1,5 @@
 package christofides;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import christofides.optimizations.GeneticAlgoSolver;
@@ -11,32 +9,30 @@ import christofides.optimizations.TwoOpt;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import uiHelper.DataNormalizer;
-import uiHelper.uiCreator;;
+import uiHelper.UICreator;;
 
-public class TSPRoute{
-    ArrayList<Node> nodes = new ArrayList<>();
-
-    public TSPRoute() {}
+public class TSPRoute {
+	ArrayList<Node> nodes = new ArrayList<>();
+	public static TSPRoute shared = new TSPRoute();
+	
+    private TSPRoute() {
+    	
+    }
 
     public void build(Scanner reader) {
         int n = reader.nextInt();
         int pos = 1;
         while(n-- > 0) {
-            reader.next();
-            Node node = new Node(String.valueOf(pos++), reader.nextDouble(), reader.nextDouble());
+            Node node = new Node(reader.next(), reader.nextDouble(), reader.nextDouble());
             nodes.add(node);
         }
-        buildRoute();
     }
 
-    private void buildRoute() {
+    public Graph buildChristofides() {
         MST mstBuilder = new MST(nodes.size(), nodes);
         // Build MST
         Graph mst = mstBuilder.buildGraph();
-//        for(Edge edge: mst.allEdges()) {
-//            System.out.println(edge.u.id+" "+edge.v.id);
-//        }
-        System.out.println("MST distance: " + mstBuilder.computeDistance());
+        System.out.println(mst.totalWeight());
         // Make all odd degree nodes even
         makeAllNodeDegreeEven(mst);
         // Compute Euler route
@@ -46,44 +42,94 @@ public class TSPRoute{
 //            System.out.println(edge.u.id+" "+edge.v.id);
 //        }
         System.out.println(tour.totalWeight());
+        return tour;
+//
+//        DataNormalizer normalizer = new DataNormalizer();
+//		  Graph normalizedTour =  normalizer.normalizeData(tour);
+//		  
+//        for(int i = 0; i < normalizedTour.getVertexCount(); i++) {
+//        	System.out.print("Lat = " + normalizedTour.nodes.get(i).getX()+ " ");
+//        	System.out.println("Lon = " + normalizedTour.nodes.get(i).getY());
+//        }
+//        
         
 
-        DataNormalizer normalizer = new DataNormalizer();
-		  Graph normalizedTour =  normalizer.normalizeData(tour);
-		  
-        for(int i = 0; i < normalizedTour.getVertexCount(); i++) {
-        	System.out.print("Lat = " + normalizedTour.nodes.get(i).getX()+ " ");
-        	System.out.println("Lon = " + normalizedTour.nodes.get(i).getY());
-        }
-        
-        
-
 
         
-        //Genetic Algo
-//        GeneticAlgoSolver GASolver = new GeneticAlgoSolver(tour);
-//        Graph GATourGraph = GASolver.buildTour(1500);
-//        System.out.println("New Genetic Algorithm Tour");
-//        System.out.println(GATourGraph.totalWeight());
-        
+//       
+//        
+//       
+//        
+//      
+//        
+//        
+
+//
+//        System.out.println("Total tour length: "+tour.totalWeight());
+    }
+    
+    public Graph buildGeneticAlgoTour() {
+      // Genetic Algo
+      Graph tour = buildChristofides();
+      GeneticAlgoSolver gaSolver = new GeneticAlgoSolver(tour);
+      Graph gaTourGraph = gaSolver.buildTour(1500);
+      System.out.println("New Genetic Algorithm Tour");
+      System.out.println(gaTourGraph.totalWeight());
+      return gaTourGraph;
+    }
+    
+    public Graph runSimulatedAnnealing() {
+    	MST mstBuilder = new MST(nodes.size(), nodes);
+        // Build MST
+        Graph mst = mstBuilder.buildGraph();
+        // Make all odd degree nodes even
+        makeAllNodeDegreeEven(mst);
+        // Compute Euler route
+        EulerTour eulerTour = new EulerTour(mst);
+        Graph tour = eulerTour.buildGraph();
+
         //Simulated Annealing
-//        SimulatedAnnealingSolver SASolver = new SimulatedAnnealingSolver(tour);
-//        Graph SATourGraph = SASolver.buildTour(eulerTour);
-//        System.out.println("New Simulated Annealing Tour");
-//        System.out.println(SATourGraph.totalWeight());
-        
-      //2 Opt Optimization
-        TwoOpt twoOptSolver = new TwoOpt(tour);
+        SimulatedAnnealingSolver saSolver = new SimulatedAnnealingSolver(tour);
+        Graph saTourGraph = saSolver.buildTour(eulerTour);
+        System.out.println("New Simulated Annealing Tour");
+        System.out.println(saTourGraph.totalWeight());
+        return saTourGraph;
+    }
+    
+    public Graph run2OPT() {
+    	// 2 Opt Optimization
+    	MST mstBuilder = new MST(nodes.size(), nodes);
+        // Build MST
+        Graph mst = mstBuilder.buildGraph();
+        System.out.println(mst.totalWeight());
+        // Make all odd degree nodes even
+        makeAllNodeDegreeEven(mst);
+        // Compute Euler route
+        EulerTour eulerTour = new EulerTour(mst);
+    	Graph saTourGraph = runSimulatedAnnealing();
+        TwoOpt twoOptSolver = new TwoOpt(saTourGraph);
         Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
         System.out.println("2 Opt Optimization");
         System.out.println(twoOptGraph.totalWeight());
-        
-        
-        //3 Opt Optimization
-//        ThreeOpt threeOptSolver = new ThreeOpt(tour);
-//        Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
-//        System.out.println("3 Opt Optimization");
-//        System.out.println(threeOptGraph.totalWeight());
+        return twoOptGraph;
+    }
+    
+    public Graph run3OPT() {
+    	 MST mstBuilder = new MST(nodes.size(), nodes);
+         // Build MST
+         Graph mst = mstBuilder.buildGraph();
+         System.out.println(mst.totalWeight());
+         // Make all odd degree nodes even
+         makeAllNodeDegreeEven(mst);
+         // Compute Euler route
+         EulerTour eulerTour = new EulerTour(mst);
+         Graph tour = eulerTour.buildGraph();
+         //3 Opt Optimization
+         ThreeOpt threeOptSolver = new ThreeOpt(tour);
+         Graph threeOptGraph = threeOptSolver.buildTour(eulerTour);
+         System.out.println("3 Opt Optimization");
+         System.out.println(threeOptGraph.totalWeight());
+         return threeOptGraph;
     }
 
     private void makeAllNodeDegreeEven(Graph g) {
@@ -95,23 +141,46 @@ public class TSPRoute{
             oddDegreeNodes.add(node);
         }
 
-        for(Node u: oddDegreeNodes) {
-            if(completedNodes.contains(u)) continue;
-            Edge shortestEdge = new Edge(null, null);
-            
-            for(Node v: oddDegreeNodes) {
-                if(completedNodes.contains(v)) continue;
-                Edge connectingEdge = new Edge(u, v);
-                if(connectingEdge.compareWeightTo(shortestEdge) < 0) shortestEdge = connectingEdge;
+        ArrayList<Edge> stronglyConnectedEdges = new ArrayList<>();
+        for(int i=0; i<oddDegreeNodes.size(); i++) {
+            for(int j=i+1; j<oddDegreeNodes.size(); j++) {
+                Edge newEdge = new Edge(oddDegreeNodes.get(i), oddDegreeNodes.get(j));
+                stronglyConnectedEdges.add(newEdge);
             }
-            completedNodes.add(shortestEdge.u);
-            completedNodes.add(shortestEdge.v);
-            g.addEdge(shortestEdge);
         }
+        BlossomGraph blossomGraph = new BlossomGraph(stronglyConnectedEdges);
+
+
+
+        BlossomMatching maxMatching = new BlossomMatching(blossomGraph);
+        ArrayList<Edge> matchingEdges = new ArrayList<>();
+        try {
+            matchingEdges = maxMatching.solveMinimumCostPerfectMatching();
+        } catch (Exception e) {
+        	for(StackTraceElement ele: e.getStackTrace()) {
+        		System.out.println(ele.toString());
+        	}
+        }
+        for(Edge edge: matchingEdges) {
+            g.addEdge(edge);
+        }
+//        for(Node u: oddDegreeNodes) {
+//            if(completedNodes.contains(u)) continue;
+//            Edge shortestEdge = new Edge(null, null);
+//
+//            for(Node v: oddDegreeNodes) {
+//                if(completedNodes.contains(v) || u.equals(v)) continue;
+//                Edge connectingEdge = new Edge(u, v);
+//                if(connectingEdge.compareWeightTo(shortestEdge) < 0) shortestEdge = connectingEdge;
+//            }
+//            completedNodes.add(shortestEdge.u);
+//            completedNodes.add(shortestEdge.v);
+//            System.out.println("Add "+shortestEdge.u.id+" "+shortestEdge.v.id);
+//            g.addEdge(shortestEdge);
+//        }
     }
 
     private boolean isEven(int n) {
         return n%2 == 0;
     }
-
 }

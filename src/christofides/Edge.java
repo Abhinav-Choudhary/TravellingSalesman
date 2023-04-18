@@ -49,4 +49,10 @@ public class Edge {
         double distance = R * c;
         return distance;
     }
+    
+    @Override
+    public int hashCode() {
+    	String idString = u.id+"#"+v.id;
+    	return idString.hashCode();
+    }
 }
