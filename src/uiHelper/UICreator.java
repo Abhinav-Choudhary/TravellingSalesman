@@ -43,7 +43,7 @@ public class UICreator extends Application {
     
     public void initialSetup() { 
     	try {
-    		Scanner reader = new Scanner(new File("src\\uiHelper\\KaggleDataset.txt"));
+    		Scanner reader = new Scanner(new File("src\\uiHelper\\info6205.spring2023.teamproject.csv"));
             TSPRoute.shared.build(reader);
             reader.close();
     	} catch(FileNotFoundException e) {
@@ -56,9 +56,9 @@ public class UICreator extends Application {
         initialSetup();
 //        Graph graph = TSPRoute.shared.buildChristofides();
         Graph mst = TSPRoute.shared.computeMST();
-        Text mstText = new Text("Minimum Spanning Tree: " + mst.totalWeight()*1000 + " m");
+        Text mstText = new Text("Minimum Spanning Tree: " + String.format("%,.2f", mst.totalWeight()*1000) + " m");
     	Graph graph = TSPRoute.shared.computeEulerTour(mst);
-        Text algoText = new Text("Christofides Algorithm: " + graph.totalWeight()*1000 + " m");
+        Text algoText = new Text("Christofides Algorithm: " + String.format("%,.2f", graph.totalWeight()*1000) + " m");
         Text optText = new Text();
         
 //        DataNormalizer dm = new DataNormalizer();      
@@ -157,7 +157,7 @@ public class UICreator extends Application {
             public void handle(ActionEvent event) {
                 // Call the Genetic Algorithm
             	Graph gaTour = TSPRoute.shared.buildGeneticAlgoTour();
-            	optText.setText("Genetic Optimization: " + gaTour.totalWeight()*1000 + " m");
+            	optText.setText("Genetic Optimization: " + String.format("%,.2f", gaTour.totalWeight()*1000) + " m");
             	System.out.print("Done");
             	
             	root.getChildren().removeIf(node -> node instanceof Line);
@@ -184,7 +184,7 @@ public class UICreator extends Application {
             public void handle(ActionEvent event) {
                 // Call the SimulatedAnnealing Algorithm
             	 Graph saTour = TSPRoute.shared.runSimulatedAnnealing();
-             	optText.setText("Simulated Annealing Optimization: " + saTour.totalWeight()*1000 + " m");
+             	optText.setText("Simulated Annealing Optimization: " + String.format("%,.2f", saTour.totalWeight()*1000) + " m");
             	 
             	 root.getChildren().removeIf(node -> node instanceof Line);
             	 
@@ -211,7 +211,7 @@ public class UICreator extends Application {
                 // Call 2Opt Optimization 
                 System.out.println("Ant Colony Optimization: ");
                 Graph twoOptTour = TSPRoute.shared.run2OPT();
-                optText.setText("2-Opt Optimization: " + twoOptTour.totalWeight()*1000 + " m");
+                optText.setText("2-Opt Optimization: " + String.format("%,.2f", twoOptTour.totalWeight()*1000) + " m");
                 
                 root.getChildren().removeIf(node -> node instanceof Line);
                 
@@ -236,7 +236,7 @@ public class UICreator extends Application {
             public void handle(ActionEvent event) {
                 // Call the 3Opt optimization Algorithm
             	Graph threeOptTour = TSPRoute.shared.run3OPT();
-            	optText.setText("3-Opt Optimization: " + threeOptTour.totalWeight()*1000 + " m");
+            	optText.setText("3-Opt Optimization: " + String.format("%,.2f", threeOptTour.totalWeight()*1000) + " m");
             	
             	root.getChildren().removeIf(node -> node instanceof Line);
              	for (Edge edge : threeOptTour.allEdges()) {
