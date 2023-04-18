@@ -2,6 +2,8 @@ package christofides;
 
 import java.util.Objects;
 
+import testCases.TestConfig;
+
 public class Edge {
 	public Node u;
     public Node v;
@@ -25,11 +27,19 @@ public class Edge {
     	return this.v;
     }
 
-    // Euclidean distance calculation
+    // distance calculation
     private double computeWeight() {
         // Return infinite weight if nodes are null
         if(Objects.isNull(u) || Objects.isNull(v)) return Integer.MAX_VALUE;
-        return latLonDistance();
+        if(TestConfig.shared.shouldComputeManhattan) {
+            return manhattanDistance();
+        } else {
+            return latLonDistance();
+        }
+    }
+    
+    private double manhattanDistance() {
+        return Math.abs(u.x-v.x) + Math.abs(u.y-v.y);
     }
 
     // Calculate distance between two points in latitude and longitude.
