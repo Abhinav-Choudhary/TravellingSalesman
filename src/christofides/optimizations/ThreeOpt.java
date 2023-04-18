@@ -137,17 +137,4 @@ public class ThreeOpt {
         }
         return new_tour;
     }
-
-    private Double calculateTourDistance(String[] tour, int size, HashMap<String, Double> allDistances, HashMap<String, Node> nodesMap) {
-        Double distance = 0.0;
-        for (int i = 0; i < size - 1; i++) {
-        	Node node1 = nodesMap.get(tour[i]);
-        	Node node2 = nodesMap.get(tour[i+1]);
-            distance += Helper.getDistanceBetweenNodes(node1, node2, allDistances);
-        }
-        Node node1 = nodesMap.get(tour[size - 1]);
-    	Node node2 = nodesMap.get(tour[0]);
-        distance += Helper.getDistanceBetweenNodes(node1, node2, allDistances);
-        return distance;
-    }
 }
