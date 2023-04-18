@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import uiHelper.DataNormalizer;
 import uiHelper.dataProvider;
@@ -42,7 +43,7 @@ public class UICreator extends Application {
     
     public void initialSetup() { 
     	try {
-    		Scanner reader = new Scanner(new File("src\\uiHelper\\data.txt"));
+    		Scanner reader = new Scanner(new File("src\\uiHelper\\KaggleDataset.txt"));
             TSPRoute.shared.build(reader);
             reader.close();
     	} catch(FileNotFoundException e) {
@@ -53,7 +54,12 @@ public class UICreator extends Application {
     @Override
     public void start(Stage stage) {
         initialSetup();
-        Graph graph = TSPRoute.shared.buildChristofides();
+//        Graph graph = TSPRoute.shared.buildChristofides();
+        Graph mst = TSPRoute.shared.computeMST();
+        Text mstText = new Text("Minimum Spanning Tree: " + mst.totalWeight()*1000 + " m");
+    	Graph graph = TSPRoute.shared.computeEulerTour(mst);
+        Text algoText = new Text("Christofides Algorithm: " + graph.totalWeight()*1000 + " m");
+        Text optText = new Text();
         
 //        DataNormalizer dm = new DataNormalizer();      
 //        Graph normalizedGraph = dm.normalizeData(graph);
@@ -151,6 +157,7 @@ public class UICreator extends Application {
             public void handle(ActionEvent event) {
                 // Call the Genetic Algorithm
             	Graph gaTour = TSPRoute.shared.buildGeneticAlgoTour();
+            	optText.setText("Genetic Optimization: " + gaTour.totalWeight()*1000 + " m");
             	System.out.print("Done");
             	
             	root.getChildren().removeIf(node -> node instanceof Line);
@@ -177,6 +184,7 @@ public class UICreator extends Application {
             public void handle(ActionEvent event) {
                 // Call the SimulatedAnnealing Algorithm
             	 Graph saTour = TSPRoute.shared.runSimulatedAnnealing();
+             	optText.setText("Simulated Annealing Optimization: " + saTour.totalWeight()*1000 + " m");
             	 
             	 root.getChildren().removeIf(node -> node instanceof Line);
             	 
@@ -203,6 +211,7 @@ public class UICreator extends Application {
                 // Call 2Opt Optimization 
                 System.out.println("Ant Colony Optimization: ");
                 Graph twoOptTour = TSPRoute.shared.run2OPT();
+                optText.setText("2-Opt Optimization: " + twoOptTour.totalWeight()*1000 + " m");
                 
                 root.getChildren().removeIf(node -> node instanceof Line);
                 
@@ -227,6 +236,7 @@ public class UICreator extends Application {
             public void handle(ActionEvent event) {
                 // Call the 3Opt optimization Algorithm
             	Graph threeOptTour = TSPRoute.shared.run3OPT();
+            	optText.setText("3-Opt Optimization: " + threeOptTour.totalWeight()*1000 + " m");
             	
             	root.getChildren().removeIf(node -> node instanceof Line);
              	for (Edge edge : threeOptTour.allEdges()) {
@@ -243,9 +253,17 @@ public class UICreator extends Application {
                 }
             }
         });
+        
+        //set layout of text
+        mstText.setLayoutX(20);
+        mstText.setLayoutY(700);
+        algoText.setLayoutX(20);
+        algoText.setLayoutY(720);
+        optText.setLayoutX(20);
+        optText.setLayoutY(740);
 
-        // Add buttons to the pane
-        pane.getChildren().addAll(btnGA, btnSA, btn2Opt, btn3Opt);
+        // Add buttons and text to the pane
+        pane.getChildren().addAll(btnGA, btnSA, btn2Opt, btn3Opt, mstText, algoText, optText);
 
         // Create a scene and set it on the stage
         Scene scene = new Scene(pane, 1000, 800);

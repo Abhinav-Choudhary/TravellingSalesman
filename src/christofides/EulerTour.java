@@ -47,7 +47,9 @@ public class EulerTour {
         for(Edge edge: g.adj(curr)) {
             if(visitedEdges.contains(edge)) continue;
             visitedEdges.add(edge);
-            dfs(edge.v, eulerPath, visitedEdges);
+            Node nextNode = edge.v;
+            if (curr.equals(nextNode)) nextNode = edge.u;
+            dfs(nextNode, eulerPath, visitedEdges);
         }
         System.out.println("dfs "+curr.id);
         eulerPath.add(curr);

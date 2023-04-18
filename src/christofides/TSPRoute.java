@@ -27,55 +27,48 @@ public class TSPRoute {
             nodes.add(node);
         }
     }
-
-    public Graph buildChristofides() {
-        MST mstBuilder = new MST(nodes.size(), nodes);
+    
+    public Graph computeMST() {
+    	MST mstBuilder = new MST(nodes.size(), nodes);
         // Build MST
         Graph mst = mstBuilder.buildGraph();
-        System.out.println(mst.totalWeight());
-        // Make all odd degree nodes even
-        makeAllNodeDegreeEven(mst);
+        System.out.println("MST total Weight: " + mst.totalWeight());
+        return mst;
+    }
+    
+    public Graph computeEulerTour(Graph mst) {
+    	makeAllNodeDegreeEven(mst);
         // Compute Euler route
         EulerTour eulerTour = new EulerTour(mst);
         Graph tour = eulerTour.buildGraph();
-//        for(Edge edge: tour.allEdges()) {
-//            System.out.println(edge.u.id+" "+edge.v.id);
-//        }
         System.out.println(tour.totalWeight());
         return tour;
-//
-//        DataNormalizer normalizer = new DataNormalizer();
-//		  Graph normalizedTour =  normalizer.normalizeData(tour);
-//		  
-//        for(int i = 0; i < normalizedTour.getVertexCount(); i++) {
-//        	System.out.print("Lat = " + normalizedTour.nodes.get(i).getX()+ " ");
-//        	System.out.println("Lon = " + normalizedTour.nodes.get(i).getY());
-//        }
-//        
-        
-
-
-        
-//       
-//        
-//       
-//        
-//      
-//        
-//        
-
-//
-//        System.out.println("Total tour length: "+tour.totalWeight());
     }
+
+//    public Graph buildChristofides() {
+//        MST mstBuilder = new MST(nodes.size(), nodes);
+//        // Build MST
+//        Graph mst = mstBuilder.buildGraph();
+//        System.out.println(mst.totalWeight());
+//        // Make all odd degree nodes even
+//        makeAllNodeDegreeEven(mst);
+//        // Compute Euler route
+//        EulerTour eulerTour = new EulerTour(mst);
+//        Graph tour = eulerTour.buildGraph();
+//        System.out.println(tour.totalWeight());
+//        return tour;
+//    }
     
     public Graph buildGeneticAlgoTour() {
       // Genetic Algo
-      Graph tour = buildChristofides();
-      GeneticAlgoSolver gaSolver = new GeneticAlgoSolver(tour);
-      Graph gaTourGraph = gaSolver.buildTour(1000);
-      System.out.println("New Genetic Algorithm Tour");
-      System.out.println(gaTourGraph.totalWeight());
-      return gaTourGraph;
+//      Graph tour = buildChristofides();
+    	Graph mst = computeMST();
+    	Graph tour = computeEulerTour(mst);
+    	GeneticAlgoSolver gaSolver = new GeneticAlgoSolver(tour);
+    	Graph gaTourGraph = gaSolver.buildTour(1000);
+    	System.out.println("New Genetic Algorithm Tour");
+    	System.out.println(gaTourGraph.totalWeight());
+    	return gaTourGraph;
     }
     
     public Graph runSimulatedAnnealing() {
@@ -106,8 +99,9 @@ public class TSPRoute {
         makeAllNodeDegreeEven(mst);
         // Compute Euler route
         EulerTour eulerTour = new EulerTour(mst);
-    	Graph saTourGraph = runSimulatedAnnealing();
-        TwoOpt twoOptSolver = new TwoOpt(saTourGraph);
+//    	Graph saTourGraph = runSimulatedAnnealing();
+        Graph tour = eulerTour.buildGraph();
+        TwoOpt twoOptSolver = new TwoOpt(tour);
         Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
         System.out.println("2 Opt Optimization");
         System.out.println(twoOptGraph.totalWeight());
