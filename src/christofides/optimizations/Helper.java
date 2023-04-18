@@ -89,5 +89,6 @@ public class Helper {
 		}
 		
 		return newTour;
-		}
+ }
+	
 }

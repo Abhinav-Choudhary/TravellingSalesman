@@ -3,29 +3,36 @@ package christofides;
 import java.util.Objects;
 
 public class Edge {
-	Node u;
-    Node v;
-    double weight;
+	public Node u;
+    public Node v;
+    public double weight;
+    
     public Edge(Node u, Node v) {
         this.u = u;
         this.v = v;
-        weight = getWeight();
-    }
-
-    // Euclidean distance calculation
-    private double getWeight() {
-        // Return infinite weight if nodes are null
-        if(Objects.isNull(u) || Objects.isNull(v)) return Integer.MAX_VALUE;
-        return latLonDistance();
+        weight = computeWeight();
     }
     
     public double getEdgeWeight() {
     	return this.weight;
     }
+    
+    public Node getUEdge() {
+    	return this.u;
+    }
+    
+    public Node getVEdge() {
+    	return this.v;
+    }
 
-    /**
-     Calculate distance between two points in latitude and longitude.
-     **/
+    // Euclidean distance calculation
+    private double computeWeight() {
+        // Return infinite weight if nodes are null
+        if(Objects.isNull(u) || Objects.isNull(v)) return Integer.MAX_VALUE;
+        return latLonDistance();
+    }
+
+    // Calculate distance between two points in latitude and longitude.
     private double latLonDistance() {
         final double R = 6371.0; // Radius of the earth
 
@@ -37,6 +44,12 @@ public class Edge {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         double distance = R * c;
         return distance;
+    }
+    
+    @Override
+    public int hashCode() {
+    	String idString = u.id+"#"+v.id;
+    	return idString.hashCode();
     }
 
     public int compareWeightTo(Edge that) {

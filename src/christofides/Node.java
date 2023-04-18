@@ -2,12 +2,37 @@ package christofides;
 
 public class Node {
 	String id;
-    double x;
-    double y;
-    public Node(String id, double x, double y) {
+    public Double x;
+    public Double y;
+    public Node(String id, Double x, Double y) {
         this.id = id;
         this.x = x;
         this.y = y;
+    }
+    
+    
+    public Double getX() {
+		return x;
+	}
+
+
+	public void setX(Double x) {
+		this.x = x;
+	}
+
+
+	public Double getY() {
+		return y;
+	}
+
+
+	public void setY(Double y) {
+		this.y = y;
+	}
+
+
+	public String getID() {
+    	return this.id;
     }
 
     public boolean equals(Node that) {
@@ -17,9 +42,5 @@ public class Node {
     @Override
     public int hashCode(){
         return id.hashCode();
-    }
-    
-    public String getID() {
-    	return this.id;
     }
 }

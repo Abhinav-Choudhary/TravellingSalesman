@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import christofides.Edge;
+//import christofides.Edge;
 import christofides.Graph;
 import christofides.Node;
+//import christofides.Node;
 
 public class GeneticAlgoSolver {
 	

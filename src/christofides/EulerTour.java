@@ -3,45 +3,55 @@ package christofides;
 import java.util.*;
 
 public class EulerTour {
-	private Graph g;
-    private ArrayList<Node> tour = new ArrayList<>();
+   private Graph g;
 
     public EulerTour(Graph g) {
         this.g = g;
     }
 
+    private ArrayList<Node> build() {
+        ArrayList<Node> nodes = g.getNodes();
+        HashSet<Edge> visited = new HashSet<>();
+        ArrayList<Node> eulerPath = new ArrayList<>();
+        
+
+        dfs(nodes.get(0), eulerPath, visited);
+
+        ArrayList<Node> hamiltonianCycle = new ArrayList<>();
+        HashSet<Node> visitedNodes = new HashSet<>();
+
+        for(Node node: eulerPath) {
+            if(visitedNodes.contains(node)) continue;
+            hamiltonianCycle.add(node);
+            visitedNodes.add(node);
+        }
+        return hamiltonianCycle;
+        
+    }
+    
     public Graph buildGraph() {
-    	build();
-        ArrayList<Edge> tourEdges = new ArrayList<>();
-        for(int i=0; i<tour.size(); i++) {
-            tourEdges.add(new Edge(tour.get(i), tour.get((i+1) % tour.size())));
+    	ArrayList<Edge> tourEdges = new ArrayList<>();
+    	ArrayList<Node> hamiltonianCycle = build();
+    	for(int i=0; i<hamiltonianCycle.size(); i++) {
+            tourEdges.add(new Edge(hamiltonianCycle.get(i), hamiltonianCycle.get((i+1) % hamiltonianCycle.size())));
         }
         return new Graph(tourEdges);
     }
-
-    private void dfs(Node curr, Map<String, Boolean> visited) {
-        if(visited.get(curr.id)) return;
-        visited.put(curr.id, true);
-        for(Edge edge: g.adj(curr)) {
-            if(!edge.u.equals(curr)) dfs(edge.u, visited);
-            else dfs(edge.v, visited);
-        }
-//        System.out.println("dfs "+curr.id);
-        tour.add(curr);
-    }
-    
-    private void build() {
-    	this.tour = new ArrayList<>();
-    	ArrayList<Node> nodes = g.getNodes();
-        Map<String, Boolean> visited = new HashMap<>();
-        for(Node node: nodes) {
-            visited.put(node.id, false);
-        }
-        dfs(nodes.get(0), visited);
-    }
     
     public ArrayList<Node> buildVertexTour() {
-    	build();
-    	return tour;
+    	ArrayList<Node> hamiltonianCycle = build();
+    	return hamiltonianCycle;
+    }
+
+    private void dfs(Node curr, ArrayList<Node> eulerPath, HashSet<Edge> visitedEdges) {
+        for(Edge edge: g.adj(curr)) {
+            if(visitedEdges.contains(edge)) continue;
+            visitedEdges.add(edge);
+            Node nextNode = edge.v;
+            if (curr.equals(nextNode)) nextNode = edge.u;
+            dfs(nextNode, eulerPath, visitedEdges);
+        }
+        System.out.println("dfs "+curr.id);
+        eulerPath.add(curr);
     }
 }
