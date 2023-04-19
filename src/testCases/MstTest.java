@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import christofidesAlgo.Node;
@@ -14,6 +16,16 @@ import christofidesAlgo.Graph;
 import christofidesAlgo.MST;
 
 class MstTest {
+	
+	@BeforeAll
+	static void setUpBeforeClass() throws Exception {
+		TestConfig.shared.shouldComputeManhattan = true;
+	}
+
+	@AfterAll
+	static void tearDownAfterClass() throws Exception {
+		TestConfig.shared.shouldComputeManhattan = false;
+	}
 
 	@Test
 	void testMST1() {
