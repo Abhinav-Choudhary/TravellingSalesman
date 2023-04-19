@@ -63,6 +63,7 @@ class EulerTourTest {
         assertTrue(tourEqual);
     }
 	
+	@Test
 	void testEulerTour2() {
         Map<String, Node> nodeMap = new HashMap<>();
         nodeMap.put("1", new Node("1", 0.0, 0.0));
