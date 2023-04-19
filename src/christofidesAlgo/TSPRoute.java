@@ -48,20 +48,6 @@ public class TSPRoute {
         return tour;
     }
 
-//    public Graph buildChristofides() {
-//        MST mstBuilder = new MST(nodes.size(), nodes);
-//        // Build MST
-//        Graph mst = mstBuilder.buildGraph();
-//        System.out.println(mst.totalWeight());
-//        // Make all odd degree nodes even
-//        makeAllNodeDegreeEven(mst);
-//        // Compute Euler route
-//        EulerTour eulerTour = new EulerTour(mst);
-//        Graph tour = eulerTour.buildGraph();
-//        System.out.println(tour.totalWeight());
-//        return tour;
-//    }
-    
     public Graph buildGeneticAlgoTour() {
       // Genetic Algo
 //      Graph tour = buildChristofides();
@@ -102,7 +88,6 @@ public class TSPRoute {
         makeAllNodeDegreeEven(mst);
         // Compute Euler route
         EulerTour eulerTour = new EulerTour(mst);
-//    	Graph saTourGraph = runSimulatedAnnealing();
         Graph tour = eulerTour.buildGraph();
         TwoOpt twoOptSolver = new TwoOpt(tour);
         Graph twoOptGraph = twoOptSolver.buildTour(eulerTour);
@@ -161,20 +146,6 @@ public class TSPRoute {
         for(Edge edge: matchingEdges) {
             g.addEdge(edge);
         }
-//        for(Node u: oddDegreeNodes) {
-//            if(completedNodes.contains(u)) continue;
-//            Edge shortestEdge = new Edge(null, null);
-//
-//            for(Node v: oddDegreeNodes) {
-//                if(completedNodes.contains(v) || u.equals(v)) continue;
-//                Edge connectingEdge = new Edge(u, v);
-//                if(connectingEdge.compareWeightTo(shortestEdge) < 0) shortestEdge = connectingEdge;
-//            }
-//            completedNodes.add(shortestEdge.u);
-//            completedNodes.add(shortestEdge.v);
-//            System.out.println("Add "+shortestEdge.u.id+" "+shortestEdge.v.id);
-//            g.addEdge(shortestEdge);
-//        }
     }
 
     private boolean isEven(int n) {

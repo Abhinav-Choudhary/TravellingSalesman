@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 import UI.DataNormalizer;
-import UI.dataProvider;
 import christofidesAlgo.*;
 import christofidesAlgo.optimizations.*;
 
@@ -32,14 +31,7 @@ public class UICreator extends Application {
     public UICreator() {
         // Default constructor with no arguments
     }
-//
-//    public UICreator(Graph graph) {
-//        this.graph = graph;
-//    }
 
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
     
     public void initialSetup() { 
     	try {
@@ -61,8 +53,6 @@ public class UICreator extends Application {
         Text algoText = new Text("Christofides Algorithm: " + String.format("%,.2f", graph.totalWeight()*1000) + " m");
         Text optText = new Text();
         
-//        DataNormalizer dm = new DataNormalizer();      
-//        Graph normalizedGraph = dm.normalizeData(graph);
         
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;

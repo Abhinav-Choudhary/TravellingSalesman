@@ -28,11 +28,8 @@ public class BinaryHeap {
         // Adjust the structures to fit new data
         if (s >= (int) pos.size()) {
             pos.add(-1);
-            // TODO: check later
-//            key.resize(s + 1);
             key.add(0.0);
             // Recall that position 0 of satellite is unused
-//            satellite.resize(s + 2);
             satellite.add(0); satellite.add(0);
         }
         //If satellite is already in the heap
