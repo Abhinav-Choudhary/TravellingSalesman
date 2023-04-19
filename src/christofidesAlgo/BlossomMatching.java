@@ -543,7 +543,6 @@ public class BlossomMatching {
     }
 
     private ArrayList<Integer> solveMaximumMatching() {
-        // TODO: double check initialize
 //    	initialize();
         clear();
         grow();
