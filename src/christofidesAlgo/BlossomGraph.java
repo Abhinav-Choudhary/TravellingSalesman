@@ -1,4 +1,4 @@
-package christofides;
+package christofidesAlgo;
 
 import java.util.*;
 
@@ -19,7 +19,7 @@ class BlossomEdge {
     }
 }
 
-class BlossomGraph {
+public class BlossomGraph {
     private Map<String, Integer> weights = new HashMap<>();
     private ArrayList<String> nodeList = new ArrayList<>();
     private HashMap<String, Node> nodeMapping = new HashMap<>();

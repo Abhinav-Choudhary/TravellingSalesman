@@ -1,9 +1,9 @@
-package uiHelper;
+package UI;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import christofides.*;
+import christofidesAlgo.*;
 
 public class randomGraphGenerator {
     private static final int NUM_NODES = 15; // Number of nodes in the graph

@@ -1,4 +1,4 @@
-package christofides;
+package christofidesAlgo;
 
 public class Node {
 	String id;

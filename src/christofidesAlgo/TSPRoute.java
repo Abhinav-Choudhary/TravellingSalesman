@@ -1,15 +1,15 @@
-package christofides;
+package christofidesAlgo;
 
 import java.util.*;
 
-import christofides.optimizations.GeneticAlgoSolver;
-import christofides.optimizations.SimulatedAnnealingSolver;
-import christofides.optimizations.ThreeOpt;
-import christofides.optimizations.TwoOpt;
+import UI.DataNormalizer;
+import UI.UICreator;
+import christofidesAlgo.optimizations.GeneticAlgoSolver;
+import christofidesAlgo.optimizations.SimulatedAnnealingSolver;
+import christofidesAlgo.optimizations.ThreeOpt;
+import christofidesAlgo.optimizations.TwoOpt;
 import javafx.application.Application;
-import javafx.stage.Stage;
-import uiHelper.DataNormalizer;
-import uiHelper.UICreator;;
+import javafx.stage.Stage;;
 
 public class TSPRoute {
 	ArrayList<Node> nodes = new ArrayList<>();
@@ -68,7 +68,7 @@ public class TSPRoute {
     	Graph mst = computeMST();
     	Graph tour = computeEulerTour(mst);
     	GeneticAlgoSolver gaSolver = new GeneticAlgoSolver(tour);
-    	Graph gaTourGraph = gaSolver.buildTour(1000);
+    	Graph gaTourGraph = gaSolver.buildTour(800);
     	System.out.println("New Genetic Algorithm Tour");
     	System.out.println(gaTourGraph.totalWeight());
     	return gaTourGraph;
@@ -129,7 +129,7 @@ public class TSPRoute {
          return threeOptGraph;
     }
 
-    private void makeAllNodeDegreeEven(Graph g) {
+    public void makeAllNodeDegreeEven(Graph g) {
         ArrayList<Node> oddDegreeNodes = new ArrayList<>();
         HashSet<Node> completedNodes = new HashSet<>();
         for(Node node: nodes) {

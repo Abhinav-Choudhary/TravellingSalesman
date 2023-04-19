@@ -1,13 +1,14 @@
-package christofides.optimizations;
+package christofidesAlgo.optimizations;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-import christofides.Edge;
-//import christofides.Edge;
-import christofides.Graph;
-import christofides.Node;
-//import christofides.Node;
+import christofidesAlgo.Edge;
+import christofidesAlgo.Graph;
+import christofidesAlgo.Node;
+
+
+
 
 public class GeneticAlgoSolver {
 	

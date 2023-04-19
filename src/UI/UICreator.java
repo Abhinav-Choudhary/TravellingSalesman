@@ -1,4 +1,4 @@
-package uiHelper;
+package UI;
 
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -14,16 +14,16 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import uiHelper.DataNormalizer;
-import uiHelper.dataProvider;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import christofides.*;
-import christofides.optimizations.*;
+import UI.DataNormalizer;
+import UI.dataProvider;
+import christofidesAlgo.*;
+import christofidesAlgo.optimizations.*;
 
 public class UICreator extends Application {
 
@@ -43,7 +43,7 @@ public class UICreator extends Application {
     
     public void initialSetup() { 
     	try {
-    		Scanner reader = new Scanner(new File("src\\uiHelper\\info6205.spring2023.teamproject.csv"));
+    		Scanner reader = new Scanner(new File("src\\UI\\info6205.spring2023.teamproject.csv"));
             TSPRoute.shared.build(reader);
             reader.close();
     	} catch(FileNotFoundException e) {
@@ -64,18 +64,13 @@ public class UICreator extends Application {
 //        DataNormalizer dm = new DataNormalizer();      
 //        Graph normalizedGraph = dm.normalizeData(graph);
         
-      for(int i = 0; i < graph.getVertexCount(); i++) {
-    	System.out.print("Lat = " + graph.getNodes().get(i).getX()+ " ");
-    	System.out.println("Lon = " + graph.getNodes().get(i).getY());
-    }
-        
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
         double minLongitude = Double.MAX_VALUE;
         double maxLongitude = Double.MIN_VALUE;
 
-        for (christofides.Node node : graph.getNodes()) {
+        for (christofidesAlgo.Node node : graph.getNodes()) {
             double latitude = node.x;
             double longitude = node.y;
             minLatitude = Math.min(minLatitude, latitude);
@@ -94,7 +89,7 @@ public class UICreator extends Application {
         Group root = new Group();
 
         // Add circles for each normalized latitude and longitude values
-        for (christofides.Node node : graph.getNodes()) {
+        for (christofidesAlgo.Node node : graph.getNodes()) {
             double latitude = node.x;
             double longitude = node.y;
             // Scale the coordinates based on the center point and scaling factors
@@ -116,8 +111,8 @@ public class UICreator extends Application {
         }
 
         for (Edge edge : graph.allEdges()) {
-            christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
-            christofides.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
+        	christofidesAlgo.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+        	christofidesAlgo.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
             // Scale the coordinates of the start and end nodes based on the center point and scaling factors
             double startX = (node1.x - centerX) * scaleX + 400;
             double startY = (node1.y - centerY) * scaleY + 300;
@@ -164,8 +159,8 @@ public class UICreator extends Application {
                 
                 // Plot lines for each edge in the graph
             	for (Edge edge : gaTour.allEdges()) {
-                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
-                    christofides.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
+            		christofidesAlgo.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+            		christofidesAlgo.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
                     // Scale the coordinates of the start and end nodes based on the center point and scaling factors
                     double startX = (node1.x - centerX) * scaleX + 400;
                     double startY = (node1.y - centerY) * scaleY + 300;
@@ -190,8 +185,8 @@ public class UICreator extends Application {
             	 
                  // Plot lines for each edge in the graph
              	for (Edge edge : saTour.allEdges()) {
-                     christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
-                     christofides.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
+             		christofidesAlgo.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+             		christofidesAlgo.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
                      // Scale the coordinates of the start and end nodes based on the center point and scaling factors
                      double startX = (node1.x - centerX) * scaleX + 400;
                      double startY = (node1.y - centerY) * scaleY + 300;
@@ -216,8 +211,8 @@ public class UICreator extends Application {
                 root.getChildren().removeIf(node -> node instanceof Line);
                 
              	for (Edge edge : twoOptTour.allEdges()) {
-                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
-                    christofides.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
+             		christofidesAlgo.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+             		christofidesAlgo.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
                     // Scale the coordinates of the start and end nodes based on the center point and scaling factors
                     double startX = (node1.x - centerX) * scaleX + 400;
                     double startY = (node1.y - centerY) * scaleY + 300;
@@ -240,8 +235,8 @@ public class UICreator extends Application {
             	
             	root.getChildren().removeIf(node -> node instanceof Line);
              	for (Edge edge : threeOptTour.allEdges()) {
-                    christofides.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
-                    christofides.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
+             		christofidesAlgo.Node node1 = edge.u; // Assuming 'u' represents the start node of the edge
+             		christofidesAlgo.Node node2 = (edge.v); // Assuming 'v' represents the end node of the edge
                     // Scale the coordinates of the start and end nodes based on the center point and scaling factors
                     double startX = (node1.x - centerX) * scaleX + 400;
                     double startY = (node1.y - centerY) * scaleY + 300;

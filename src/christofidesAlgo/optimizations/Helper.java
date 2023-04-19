@@ -1,11 +1,11 @@
-package christofides.optimizations;
+package christofidesAlgo.optimizations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import christofides.Edge;
-import christofides.EulerTour;
-import christofides.Node;
+import christofidesAlgo.Edge;
+import christofidesAlgo.EulerTour;
+import christofidesAlgo.Node;
 
 public class Helper {
 

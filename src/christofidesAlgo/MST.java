@@ -1,8 +1,8 @@
-package christofides;
+package christofidesAlgo;
 
 import java.util.*;
 
-class MST {
+public class MST {
 	 private int nodeCount;
 	    private HashSet<String> addedToMST = new HashSet<>();
 	    private HashMap<String, Double> distToVertex = new HashMap<>();
