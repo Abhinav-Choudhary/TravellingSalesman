@@ -68,7 +68,7 @@ public class TSPRoute {
     	Graph mst = computeMST();
     	Graph tour = computeEulerTour(mst);
     	GeneticAlgoSolver gaSolver = new GeneticAlgoSolver(tour);
-    	Graph gaTourGraph = gaSolver.buildTour(1000);
+    	Graph gaTourGraph = gaSolver.buildTour(800);
     	System.out.println("New Genetic Algorithm Tour");
     	System.out.println(gaTourGraph.totalWeight());
     	return gaTourGraph;
@@ -129,7 +129,7 @@ public class TSPRoute {
          return threeOptGraph;
     }
 
-    private void makeAllNodeDegreeEven(Graph g) {
+    public void makeAllNodeDegreeEven(Graph g) {
         ArrayList<Node> oddDegreeNodes = new ArrayList<>();
         HashSet<Node> completedNodes = new HashSet<>();
         for(Node node: nodes) {

@@ -64,11 +64,6 @@ public class UICreator extends Application {
 //        DataNormalizer dm = new DataNormalizer();      
 //        Graph normalizedGraph = dm.normalizeData(graph);
         
-      for(int i = 0; i < graph.getVertexCount(); i++) {
-    	System.out.print("Lat = " + graph.getNodes().get(i).getX()+ " ");
-    	System.out.println("Lon = " + graph.getNodes().get(i).getY());
-    }
-        
         // Find the min and max values for latitude and longitude
         double minLatitude = Double.MAX_VALUE;
         double maxLatitude = Double.MIN_VALUE;
